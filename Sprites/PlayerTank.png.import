@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Shoot.png-734a09a5119dbddd9d4b7501235c0420.stex"
+path="res://.import/PlayerTank.png-6b3aea38d570da470c91c35112db9a63.stex"
 
 [deps]
 
-source_file="res://Shoot.png"
-dest_files=[ "res://.import/Shoot.png-734a09a5119dbddd9d4b7501235c0420.stex" ]
+source_file="res://Sprites/PlayerTank.png"
+dest_files=[ "res://.import/PlayerTank.png-6b3aea38d570da470c91c35112db9a63.stex" ]
 
 [params]
 

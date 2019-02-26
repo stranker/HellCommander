@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/PlayerTurret.png-23b759e872d0e55609b1786e561d5c27.stex"
+path="res://.import/HealthBarFront.png-f4b3f9916ae73799640a21a6f7dbfecc.stex"
 
 [deps]
 
-source_file="res://PlayerTurret.png"
-dest_files=[ "res://.import/PlayerTurret.png-23b759e872d0e55609b1786e561d5c27.stex" ]
+source_file="res://Sprites/HealthBarFront.png"
+dest_files=[ "res://.import/HealthBarFront.png-f4b3f9916ae73799640a21a6f7dbfecc.stex" ]
 
 [params]
 

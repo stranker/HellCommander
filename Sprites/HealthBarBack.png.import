@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/HealthBarBack.png-86437c7e59eec58bd127b89ebd97adf1.stex"
+path="res://.import/HealthBarBack.png-b3c40f16a7befbe0f101e88b5ebd8e72.stex"
 
 [deps]
 
-source_file="res://HealthBarBack.png"
-dest_files=[ "res://.import/HealthBarBack.png-86437c7e59eec58bd127b89ebd97adf1.stex" ]
+source_file="res://Sprites/HealthBarBack.png"
+dest_files=[ "res://.import/HealthBarBack.png-b3c40f16a7befbe0f101e88b5ebd8e72.stex" ]
 
 [params]
 

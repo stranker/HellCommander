@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/PlayerTank.png-aa1243706a68c695b87940405d211d01.stex"
+path="res://.import/PlayerTurret.png-f4f4850d968f819c6fdeac039f141257.stex"
 
 [deps]
 
-source_file="res://PlayerTank.png"
-dest_files=[ "res://.import/PlayerTank.png-aa1243706a68c695b87940405d211d01.stex" ]
+source_file="res://Sprites/PlayerTurret.png"
+dest_files=[ "res://.import/PlayerTurret.png-f4f4850d968f819c6fdeac039f141257.stex" ]
 
 [params]
 
