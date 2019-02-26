@@ -2,10 +2,10 @@ extends Node
 
 const DEFAULT_IP = '127.0.0.1'
 const DEFAULT_PORT = 31400
-const MAX_PLAYERS = 5
+const MAX_PLAYERS = 10
 
 var players = { }
-var self_data = { name = '', position = Vector2(360, 180) }
+var self_data = { name = '', position = Vector2(0, 0) }
 
 signal player_disconnected
 signal server_disconnected
@@ -15,7 +15,9 @@ func _ready():
 	get_tree().connect('network_peer_connected', self, '_on_player_connected')
 
 func create_server(player_nickname):
+	randomize()
 	self_data.name = player_nickname
+	self_data.position = Vector2(rand_range(0,OS.window_size.x),rand_range(0,OS.window_size.y))
 	players[1] = self_data
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_server(DEFAULT_PORT, MAX_PLAYERS)
@@ -30,6 +32,7 @@ func connect_to_server(player_nickname):
 
 func _connected_to_server():
 	var local_player_id = get_tree().get_network_unique_id()
+	self_data.position = Vector2(rand_range(0,OS.window_size.x),rand_range(0,OS.window_size.y))
 	players[local_player_id] = self_data
 	rpc('_send_player_info', local_player_id, self_data)
 

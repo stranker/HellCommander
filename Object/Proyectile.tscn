@@ -27,7 +27,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[node name="Proyectile" type="Area2D" index="0"]
+[node name="Proyectile" type="Area2D"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
