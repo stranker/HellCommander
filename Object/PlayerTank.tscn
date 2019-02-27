@@ -235,7 +235,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[node name="PlayerTank" type="KinematicBody2D" index="0" groups=[
+[node name="PlayerTank" type="KinematicBody2D" groups=[
 "Tank",
 ]]
 

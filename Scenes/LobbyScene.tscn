@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Menu.gd" type="Script" id=1]
 
-[node name="Lobby" type="Control"]
+[node name="Lobby" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -102,9 +102,6 @@ placeholder_alpha = 0.6
 caret_blink = false
 caret_blink_speed = 0.65
 caret_position = 0
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Name" type="Label" parent="Panel" index="3"]
 
