@@ -38,6 +38,7 @@ audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
 speed = 400.0
+time_to_destroy = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
 
@@ -60,6 +61,15 @@ playback_speed = 1.0
 anims/Start = SubResource( 2 )
 blend_times = [  ]
 
+[node name="DistanceTimer" type="Timer" parent="." index="3"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
 [connection signal="body_entered" from="." to="." method="_on_Proyectile_body_entered"]
+
+[connection signal="timeout" from="DistanceTimer" to="." method="_on_DistanceTimer_timeout"]
 
 

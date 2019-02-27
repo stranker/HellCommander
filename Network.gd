@@ -1,11 +1,12 @@
 extends Node
 
-const DEFAULT_IP = '127.0.0.1'
-const DEFAULT_PORT = 31400
+var DEFAULT_IP = '127.0.0.1'
+var DEFAULT_PORT = 31400
 const MAX_PLAYERS = 10
 
 var players = { }
-var self_data = { name = '', position = Vector2(0, 0) }
+var player_position_index = 0
+var self_data = { name = '', initial_position =  player_position_index, position = Vector2(0, 0) }
 
 signal player_disconnected
 signal server_disconnected
@@ -17,22 +18,22 @@ func _ready():
 func create_server(player_nickname):
 	randomize()
 	self_data.name = player_nickname
-	self_data.position = Vector2(rand_range(0,OS.window_size.x),rand_range(0,OS.window_size.y))
 	players[1] = self_data
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_server(DEFAULT_PORT, MAX_PLAYERS)
 	get_tree().set_network_peer(peer)
 
-func connect_to_server(player_nickname):
+func connect_to_server(player_nickname, ip):
 	self_data.name = player_nickname
+	player_position_index += 1
+	self_data.initial_position = player_position_index
 	get_tree().connect('connected_to_server', self, '_connected_to_server')
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(DEFAULT_IP, DEFAULT_PORT)
+	peer.create_client(ip, DEFAULT_PORT)
 	get_tree().set_network_peer(peer)
 
 func _connected_to_server():
 	var local_player_id = get_tree().get_network_unique_id()
-	self_data.position = Vector2(rand_range(0,OS.window_size.x),rand_range(0,OS.window_size.y))
 	players[local_player_id] = self_data
 	rpc('_send_player_info', local_player_id, self_data)
 
@@ -60,10 +61,13 @@ remote func _send_player_info(id, info):
 	var new_player = load('res://Object/PlayerTank.tscn').instance()
 	new_player.name = str(id)
 	new_player.set_network_master(id)
-	$'/root/TestScene/'.add_child(new_player)
-	new_player.init(info.name, info.position, true)
+	$'/root/TestScene/Players'.add_child(new_player)
+	new_player.init(info.name, info.initial_position, info.position, true)
 
 func update_player(id, position, rotation, turretRotation):
-	players[id].position = position
-	players[id].rotation = rotation
-	players[id].turretRotation = turretRotation
+	if players.keys().has(id):
+		players[id].position = position
+		players[id].rotation = rotation
+		players[id].turretRotation = turretRotation
+	else:
+		print("Player id not found")
