@@ -6,6 +6,8 @@ var tank_damage
 var tank_owner
 var direction = Vector2()
 
+signal hit
+
 func _ready():
 	$DistanceTimer.wait_time = time_to_destroy
 	$DistanceTimer.start()
@@ -23,9 +25,11 @@ func initialize(dir, damage, player):
 func _on_Proyectile_body_entered(body):
 	if body.is_in_group('Tank') and body != tank_owner:
 		body.take_damage(tank_damage)
+		emit_signal('hit')
 		queue_free()
 	if body.name.find("Tile")>=0:
 		queue_free()
+		emit_signal('hit')
 	pass # replace with function body
 
 func _on_DistanceTimer_timeout():

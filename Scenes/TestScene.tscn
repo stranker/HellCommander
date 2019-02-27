@@ -35,7 +35,7 @@ func update_player_count():
 	if player_count != Network.players.size():
 		player_count = Network.players.size()
 		$UI/PlayerCount/Count.text = str(Network.players.size())
-	if $Players.get_child_count() == 2 and !count_start:
+	if $Players.get_child_count() == 1 and !count_start:
 		count_start = !count_start
 		$StartTimer.start()
 		emit_signal(\"count_start\")
