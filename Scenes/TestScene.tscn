@@ -26,13 +26,13 @@ func _ready():
 	new_player.name = str(id)
 	new_player.set_network_master(id)
 	$Players.add_child(new_player)
-	update_player_count()
 	var info = Network.self_data
 	new_player.init(info.name, info.initial_position, info.position, false)
 	if is_network_master():
 		$UI/StartButton.show()
 	else:
 		$UI/StartButton.hide()
+	update_player_count()
 	pass
 
 func update_player_count():
@@ -210,8 +210,6 @@ tile_data = PoolIntArray( -131075, -1610612734, 0, -131074, -1073741822, 0, -131
 _sections_unfolded = [ "Cell" ]
 
 [node name="SpawnPoints" type="Node" parent="." index="2"]
-
-editor/display_folded = true
 
 [node name="Pos1" type="Position2D" parent="SpawnPoints" index="0"]
 
