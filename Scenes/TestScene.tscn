@@ -9,8 +9,8 @@ resource_name = "Game.gd"
 script/source = "extends Node
 
 var player_count = 0
-var game_started = false
-var count_start = false
+slave var game_started = false
+slave var counter_started = false
 
 onready var players_pos = get_node(\"SpawnPoints\").get_children()
 
@@ -29,20 +29,21 @@ func _ready():
 	update_player_count()
 	var info = Network.self_data
 	new_player.init(info.name, info.initial_position, info.position, false)
+	if is_network_master():
+		$UI/StartButton.show()
+	else:
+		$UI/StartButton.hide()
 	pass
 
 func update_player_count():
 	if player_count != Network.players.size():
 		player_count = Network.players.size()
 		$UI/PlayerCount/Count.text = str(Network.players.size())
-	if $Players.get_child_count() == 1 and !count_start:
-		count_start = !count_start
-		$StartTimer.start()
-		emit_signal(\"count_start\")
 	pass
 
 func _process(delta):
 	update_player_count()
+	check_counter()
 	pass
 
 func _on_player_disconnected(id):
@@ -52,17 +53,35 @@ func _on_player_disconnected(id):
 func _on_server_disconnected():
 	get_tree().change_scene('res://Scenes/LobbyScene.tscn')
 
-sync func _on_StartTimer_timeout():
+func check_counter():
+	if counter_started:
+		start_counter()
+	pass
+
+func _on_StartTimer_timeout():
 	$UI.stop_counter()
 	game_started = !game_started
 	emit_signal(\"game_start\")
 	pass # replace with function body
 
 func get_init_position(index):
-	return players_pos[index].global_position"
+	return players_pos[index].global_position
+
+func _on_StartButton_pressed():
+	counter_started = true
+	rset('counter_started',true)
+	pass # replace with function body
+
+func start_counter():
+	if $StartTimer.is_stopped() and !game_started:
+		$StartTimer.start()
+		if is_network_master():
+			$UI/StartButton.hide()
+		emit_signal(\"count_start\")
+	pass"
 _sections_unfolded = [ "Resource" ]
 
-[node name="TestScene" type="Node"]
+[node name="TestScene" type="Node" index="0"]
 
 script = SubResource( 1 )
 
@@ -144,6 +163,31 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Rect", "custom_colors" ]
 
+[node name="StartButton" type="Button" parent="UI" index="2"]
+
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -65.5
+margin_top = -35.5
+margin_right = 65.5
+margin_bottom = 35.5
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "START GAME"
+flat = false
+align = 1
+
 [node name="TileMap" type="TileMap" parent="." index="1"]
 
 mode = 0
@@ -166,6 +210,8 @@ tile_data = PoolIntArray( -131075, -1610612734, 0, -131074, -1073741822, 0, -131
 _sections_unfolded = [ "Cell" ]
 
 [node name="SpawnPoints" type="Node" parent="." index="2"]
+
+editor/display_folded = true
 
 [node name="Pos1" type="Position2D" parent="SpawnPoints" index="0"]
 
@@ -197,6 +243,8 @@ autostart = false
 [node name="Players" type="Node" parent="." index="4"]
 
 [connection signal="count_start" from="." to="UI" method="_on_TestScene_count_start"]
+
+[connection signal="pressed" from="UI/StartButton" to="." method="_on_StartButton_pressed"]
 
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
 
