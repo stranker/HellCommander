@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/UIManager.gd" type="Script" id=1]
 [ext_resource path="res://Tileset/TileSahara.tres" type="TileSet" id=2]
@@ -11,8 +11,6 @@ script/source = "extends Node
 var player_count = 0
 slave var game_started = false
 slave var counter_started = false
-
-onready var players_pos = get_node(\"SpawnPoints\").get_children()
 
 signal count_start
 signal game_start
@@ -27,7 +25,7 @@ func _ready():
 	new_player.set_network_master(id)
 	$Players.add_child(new_player)
 	var info = Network.self_data
-	new_player.init(info.name, info.initial_position, info.position, false)
+	new_player.init(info.name, false)
 	if is_network_master():
 		$UI/StartButton.show()
 	else:
@@ -64,8 +62,6 @@ func _on_StartTimer_timeout():
 	emit_signal(\"game_start\")
 	pass # replace with function body
 
-func get_init_position(index):
-	return players_pos[index].global_position
 
 func _on_StartButton_pressed():
 	counter_started = true
@@ -81,12 +77,46 @@ func start_counter():
 	pass"
 _sections_unfolded = [ "Resource" ]
 
-[node name="TestScene" type="Node" index="0"]
+[sub_resource type="GDScript" id=2]
+
+resource_name = "PlayersManager.gd"
+script/source = "extends Node
+
+onready var players_pos = get_parent().get_node(\"SpawnPoints\").get_children()
+var players = []
+
+func _ready():
+	update_player_list()
+	pass
+
+func _process(delta):
+	if is_network_master():
+		update_player_list()
+	pass
+
+func update_player_list():
+	if players.size() != Network.players.keys().size():
+		players = get_children()
+	pass
+
+func give_players_positions():
+	for i in range(get_child_count()):
+		players[i].set_initial_position(players_pos[i].global_position)
+	pass
+
+func _on_TestScene_game_start():
+	give_players_positions()
+	pass # replace with function body
+"
+_sections_unfolded = [ "Resource" ]
+
+[node name="TestScene" type="Node"]
 
 script = SubResource( 1 )
 
 [node name="UI" type="CanvasLayer" parent="." index="0"]
 
+editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -211,6 +241,8 @@ _sections_unfolded = [ "Cell" ]
 
 [node name="SpawnPoints" type="Node" parent="." index="2"]
 
+editor/display_folded = true
+
 [node name="Pos1" type="Position2D" parent="SpawnPoints" index="0"]
 
 position = Vector2( 240, 64 )
@@ -240,7 +272,11 @@ autostart = false
 
 [node name="Players" type="Node" parent="." index="4"]
 
+script = SubResource( 2 )
+
 [connection signal="count_start" from="." to="UI" method="_on_TestScene_count_start"]
+
+[connection signal="game_start" from="." to="Players" method="_on_TestScene_game_start"]
 
 [connection signal="pressed" from="UI/StartButton" to="." method="_on_StartButton_pressed"]
 

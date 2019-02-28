@@ -26,7 +26,6 @@ var turretRotation = 0
 var rotationDir = 0
 var can_shoot = false
 var can_move = false
-var initial_pos_index
 
 func _ready():
 	$CollisionShape2D.disabled = true
@@ -65,10 +64,8 @@ func _process(delta):
 		Network.update_player(int(name),position,rotation,slave_turret_rotation)
 	pass
 
-func init(nickname, pos_index, start_position, is_slave):
+func init(nickname, is_slave):
 	$Display.init(nickname,maxHealth)
-	global_position = start_position
-	initial_pos_index = pos_index
 	#if is_slave:
 	#	$Sprite.texture = load('res://player/player-alt.png')
 	pass
@@ -107,13 +104,17 @@ func activate_tank():
 	can_shoot = true
 	can_move = true
 	$CollisionShape2D.disabled = false
-	position = get_parent().get_parent().get_init_position(initial_pos_index)
 	Network.update_player(int(name),position,rotation,slave_turret_rotation)
 	pass
 
 func shake_camera():
 	$Camera.shake(0.5,0.5)
-	pass"
+	pass
+
+func set_initial_position(pos):
+	position = pos
+	activate_tank()
+"
 _sections_unfolded = [ "Resource" ]
 
 [sub_resource type="RectangleShape2D" id=2]

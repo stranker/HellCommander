@@ -5,8 +5,7 @@ var DEFAULT_PORT = 31400
 const MAX_PLAYERS = 10
 
 var players = { }
-slave var players_pos_index = 0
-var self_data = { name = '', initial_position =  players_pos_index, position = Vector2(0, 0) }
+var self_data = { name = ''}
 
 
 signal player_disconnected
@@ -58,13 +57,12 @@ remote func _request_players(request_from_id):
 				rpc_id(request_from_id, '_send_player_info', peer_id, players[peer_id])
 
 remote func _send_player_info(id, info):
-	rset('players_pos_index',players_pos_index + 1)
 	players[id] = info
 	var new_player = load('res://Object/PlayerTank.tscn').instance()
 	new_player.name = str(id)
 	new_player.set_network_master(id)
 	$'/root/TestScene/Players'.add_child(new_player)
-	new_player.init(info.name, players_pos_index, info.position, true)
+	new_player.init(info.name, true)
 
 func update_player(id, position, rotation, turretRotation):
 	if players.keys().has(id):
