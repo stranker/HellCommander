@@ -5,11 +5,13 @@ var DEFAULT_PORT = 31400
 const MAX_PLAYERS = 10
 
 var players = { }
-var self_data = { name = ''}
-
+var self_data = { name = '', spawn_index = 0}
 
 signal player_disconnected
 signal server_disconnected
+
+var contador = 0
+
 
 func _ready():
 	get_tree().connect('network_peer_disconnected', self, '_on_player_disconnected')
@@ -62,7 +64,9 @@ remote func _send_player_info(id, info):
 	new_player.name = str(id)
 	new_player.set_network_master(id)
 	$'/root/TestScene/Players'.add_child(new_player)
-	new_player.init(info.name, true)
+	contador += 1
+	players[id].spawn_index = contador
+	new_player.init(info.name,info.spawn_index, true)
 
 func update_player(id, position, rotation, turretRotation):
 	if players.keys().has(id):
@@ -71,3 +75,4 @@ func update_player(id, position, rotation, turretRotation):
 		players[id].turretRotation = turretRotation
 	else:
 		print("Player id not found")
+

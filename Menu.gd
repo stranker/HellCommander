@@ -32,7 +32,6 @@ func _on_ConnectButton_button_down():
 	_load_game()
 	pass # replace with function body
 
-
 func _on_IPServer_text_changed(new_text):
 	serverIP = new_text
 	pass # replace with function body

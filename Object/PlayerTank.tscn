@@ -27,6 +27,7 @@ var rotationDir = 0
 var can_shoot = false
 var can_move = false
 
+
 func _ready():
 	$CollisionShape2D.disabled = true
 	$'/root/TestScene/'.connect(\"game_start\", self, \"activate_tank\")
@@ -64,8 +65,10 @@ func _process(delta):
 		Network.update_player(int(name),position,rotation,slave_turret_rotation)
 	pass
 
-func init(nickname, is_slave):
+func init(nickname,spawn_index, is_slave):
 	$Display.init(nickname,maxHealth)
+	print(spawn_index)
+	position = get_parent().get_parent().get_node(\"SpawnPoints\").get_children()[spawn_index].global_position
 	#if is_slave:
 	#	$Sprite.texture = load('res://player/player-alt.png')
 	pass
@@ -110,10 +113,6 @@ func activate_tank():
 func shake_camera():
 	$Camera.shake(0.5,0.5)
 	pass
-
-func set_initial_position(pos):
-	position = pos
-	activate_tank()
 "
 _sections_unfolded = [ "Resource" ]
 
@@ -243,7 +242,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[node name="PlayerTank" type="KinematicBody2D" groups=[
+[node name="PlayerTank" type="KinematicBody2D" index="0" groups=[
 "Tank",
 ]]
 
