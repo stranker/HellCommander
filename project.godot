@@ -11,12 +11,12 @@ config_version=3
 [application]
 
 config/name="HellCommander"
-run/main_scene="res://Scenes/LobbyScene.tscn"
+run/main_scene="res://Scenes/lobby.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Network="*res://Network.gd"
+gamestate="*res://gamestate.gd"
 
 [input]
 
