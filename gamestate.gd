@@ -7,7 +7,7 @@ const DEFAULT_PORT = 10567
 const MAX_PEERS = 12
 
 # Name for my player
-var player_name = "The Warrior"
+var player_name = "INAK TANK"
 
 # Names for remote players in id:name format
 var players = {}
@@ -28,7 +28,7 @@ func _player_connected(id):
 # Callback from SceneTree
 func _player_disconnected(id):
 	if (get_tree().is_network_server()):
-		if (has_node("/root/world")): # Game is in progress
+		if (has_node("/root/TestScene")): # Game is in progress
 			emit_signal("game_error", "Player " + players[id] + " disconnected")
 			end_game()
 		else: # Game is not in progress
@@ -73,15 +73,15 @@ remote func unregister_player(id):
 
 remote func pre_start_game(spawn_points):
 	# Change scene
-	var world = load("res://world.tscn").instance()
+	var world = load("res://Scenes/TestScene.tscn").instance()
 	get_tree().get_root().add_child(world)
 
 	get_tree().get_root().get_node("lobby").hide()
 
-	var player_scene = load("res://player.tscn")
-
+	var player_scene = load("res://Object/PlayerTank.tscn")
+	
 	for p_id in spawn_points:
-		var spawn_pos = world.get_node("spawn_points/" + str(spawn_points[p_id])).position
+		var spawn_pos = world.get_node("SpawnPoints/Pos" + str(spawn_points[p_id])).global_position
 		var player = player_scene.instance()
 
 		player.set_name(str(p_id)) # Use unique ID as node name
@@ -95,12 +95,12 @@ remote func pre_start_game(spawn_points):
 			# Otherwise set name from peer
 			player.set_player_name(players[p_id])
 
-		world.get_node("players").add_child(player)
+		world.get_node("Players").add_child(player)
 
 	# Set up score
-	world.get_node("score").add_player(get_tree().get_network_unique_id(), player_name)
-	for pn in players:
-		world.get_node("score").add_player(pn, players[pn])
+	#world.get_node("score").add_player(get_tree().get_network_unique_id(), player_name)
+	#for pn in players:
+	#	world.get_node("score").add_player(pn, players[pn])
 
 	if (not get_tree().is_network_server()):
 		# Tell server we are ready to start
@@ -159,9 +159,9 @@ func begin_game():
 	pre_start_game(spawn_points)
 
 func end_game():
-	if (has_node("/root/world")): # Game is in progress
+	if (has_node("/root/TestScene")): # Game is in progress
 		# End it
-		get_node("/root/world").queue_free()
+		get_node("/root/TestScene").queue_free()
 
 	emit_signal("game_ended")
 	players.clear()

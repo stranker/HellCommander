@@ -24,28 +24,24 @@ slave var slave_rotation = 0
 slave var slave_turret_rotation = 0
 var turretRotation = 0
 var rotationDir = 0
-var can_shoot = false
-var can_move = false
+var can_shoot = true
 
 
 func _ready():
-	$CollisionShape2D.disabled = true
-	$'/root/TestScene/'.connect(\"game_start\", self, \"activate_tank\")
 	pass
 
 func _process(delta):
 	rotationDir = 0
 	velocity = Vector2()
 	if is_network_master():
-		if can_move:
-			if Input.is_action_pressed(\"ui_right\"):
-				rotationDir += 1
-			elif Input.is_action_pressed(\"ui_left\"):
-				rotationDir -= 1
-			if Input.is_action_pressed(\"ui_down\"):
-				velocity = Vector2(-speed, 0).rotated(rotation)
-			elif Input.is_action_pressed(\"ui_up\"):
-				velocity = Vector2(speed, 0).rotated(rotation)
+		if Input.is_action_pressed(\"ui_right\"):
+			rotationDir += 1
+		elif Input.is_action_pressed(\"ui_left\"):
+			rotationDir -= 1
+		if Input.is_action_pressed(\"ui_down\"):
+			velocity = Vector2(-speed, 0).rotated(rotation)
+		elif Input.is_action_pressed(\"ui_up\"):
+			velocity = Vector2(speed, 0).rotated(rotation)
 		rotation += rotationDir * rotationSpeed * delta
 		rset_unreliable('slave_position', position)
 		rset_unreliable('slave_rotation', rotation)
@@ -61,16 +57,6 @@ func _process(delta):
 		position = slave_position
 		rotation = slave_rotation
 		$Turret.rotation = slave_turret_rotation
-	if get_tree().is_network_server():
-		Network.update_player(int(name),position,rotation,slave_turret_rotation)
-	pass
-
-func init(nickname,spawn_index, is_slave):
-	$Display.init(nickname,maxHealth)
-	print(spawn_index)
-	position = get_parent().get_parent().get_node(\"SpawnPoints\").get_children()[spawn_index].global_position
-	#if is_slave:
-	#	$Sprite.texture = load('res://player/player-alt.png')
 	pass
 
 sync func shoot():
@@ -103,11 +89,8 @@ func destroy_tank():
 	$Anim.play('Explosion')
 	pass
 
-func activate_tank():
-	can_shoot = true
-	can_move = true
-	$CollisionShape2D.disabled = false
-	Network.update_player(int(name),position,rotation,slave_turret_rotation)
+func set_player_name(nick):
+	$Display.init(nick,maxHealth)
 	pass
 
 func shake_camera():
@@ -242,7 +225,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[node name="PlayerTank" type="KinematicBody2D" index="0" groups=[
+[node name="PlayerTank" type="KinematicBody2D" groups=[
 "Tank",
 ]]
 

@@ -1,198 +1,21 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Scenes/UIManager.gd" type="Script" id=1]
-[ext_resource path="res://Tileset/TileSahara.tres" type="TileSet" id=2]
+[ext_resource path="res://Tileset/TileSahara.tres" type="TileSet" id=1]
 
-[sub_resource type="GDScript" id=1]
-
-resource_name = "Game.gd"
-script/source = "extends Node
-
-var player_count = 0
-slave var game_started = false
-slave var counter_started = false
-
-signal count_start
-signal game_start
-
-func _ready():
-	get_tree().connect('network_peer_disconnected', self, '_on_player_disconnected')
-	get_tree().connect('server_disconnected', self, '_on_server_disconnected')
-	
-	var new_player = preload('res://Object/PlayerTank.tscn').instance()
-	var id = get_tree().get_network_unique_id()
-	new_player.name = str(id)
-	new_player.set_network_master(id)
-	$Players.add_child(new_player)
-	var info = Network.self_data
-	new_player.init(info.name,info.spawn_index, false)
-	if is_network_master():
-		$UI/StartButton.show()
-	else:
-		$UI/StartButton.hide()
-	update_player_count()
-	pass
-
-func update_player_count():
-	if player_count != Network.players.size():
-		player_count = Network.players.size()
-		$UI/PlayerCount/Count.text = str(Network.players.size())
-	pass
-
-func _process(delta):
-	update_player_count()
-	check_counter()
-	pass
-
-func _on_player_disconnected(id):
-	if get_node(str(id)):
-		get_node(str(id)).queue_free()
-
-func _on_server_disconnected():
-	get_tree().change_scene('res://Scenes/LobbyScene.tscn')
-
-func check_counter():
-	if counter_started:
-		start_counter()
-	pass
-
-func _on_StartTimer_timeout():
-	$UI.stop_counter()
-	game_started = !game_started
-	emit_signal(\"game_start\")
-	pass # replace with function body
-
-func _on_StartButton_pressed():
-	counter_started = true
-	rset('counter_started',true)
-	pass # replace with function body
-
-func start_counter():
-	if $StartTimer.is_stopped() and !game_started:
-		$StartTimer.start()
-		if is_network_master():
-			$UI/StartButton.hide()
-		emit_signal(\"count_start\")
-	pass
-
-func _on_TestScene_game_start():
-	
-	pass # replace with function body
-"
-_sections_unfolded = [ "Resource" ]
-
-[node name="TestScene" type="Node"]
-
-script = SubResource( 1 )
+[node name="TestScene" type="Node" index="0"]
 
 [node name="UI" type="CanvasLayer" parent="." index="0"]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-script = ExtResource( 1 )
-
-[node name="PlayerCount" type="Label" parent="UI" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 14.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "PLAYERS"
-align = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Count" type="Label" parent="UI/PlayerCount" index="0"]
-
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -23.5
-margin_top = 6.0
-margin_right = 26.5
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "1"
-align = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="StartCounter" type="Label" parent="UI" index="1"]
-
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -160.0
-margin_top = -12.0
-margin_right = -47.0
-margin_bottom = 2.0
-rect_scale = Vector2( 3, 3 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "999"
-align = 1
-valign = 3
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Rect", "custom_colors" ]
-
-[node name="StartButton" type="Button" parent="UI" index="2"]
-
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -65.5
-margin_top = -35.5
-margin_right = 65.5
-margin_bottom = 35.5
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "START GAME"
-flat = false
-align = 1
 
 [node name="TileMap" type="TileMap" parent="." index="1"]
 
 mode = 0
-tile_set = ExtResource( 2 )
+tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 32 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -212,23 +35,23 @@ _sections_unfolded = [ "Cell" ]
 
 [node name="SpawnPoints" type="Node" parent="." index="2"]
 
-[node name="Pos1" type="Position2D" parent="SpawnPoints" index="0"]
+[node name="Pos0" type="Position2D" parent="SpawnPoints" index="0"]
 
 position = Vector2( 240, 64 )
 
-[node name="Pos2" type="Position2D" parent="SpawnPoints" index="1"]
+[node name="Pos1" type="Position2D" parent="SpawnPoints" index="1"]
 
 position = Vector2( 48, 432 )
 
-[node name="Pos3" type="Position2D" parent="SpawnPoints" index="2"]
+[node name="Pos2" type="Position2D" parent="SpawnPoints" index="2"]
 
 position = Vector2( 560, 656 )
 
-[node name="Pos4" type="Position2D" parent="SpawnPoints" index="3"]
+[node name="Pos3" type="Position2D" parent="SpawnPoints" index="3"]
 
 position = Vector2( 944, 432 )
 
-[node name="Pos5" type="Position2D" parent="SpawnPoints" index="4"]
+[node name="Pos4" type="Position2D" parent="SpawnPoints" index="4"]
 
 position = Vector2( 912, 112 )
 
@@ -240,12 +63,6 @@ one_shot = true
 autostart = false
 
 [node name="Players" type="Node" parent="." index="4"]
-
-[connection signal="count_start" from="." to="UI" method="_on_TestScene_count_start"]
-
-[connection signal="game_start" from="." to="." method="_on_TestScene_game_start"]
-
-[connection signal="pressed" from="UI/StartButton" to="." method="_on_StartButton_pressed"]
 
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
 
