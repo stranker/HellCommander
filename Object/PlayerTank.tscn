@@ -26,6 +26,8 @@ var turretRotation = 0
 var rotationDir = 0
 var can_shoot = true
 var spectate_index = 0
+var nickname
+var spectating_player = null
 
 func _ready():
 	pass
@@ -54,7 +56,8 @@ func _process(delta):
 			rset_unreliable('slave_turret_rotation', turretRotation)
 			$Camera.current = true
 		else:
-			$Camera.current = false
+			if spectating_player:
+				position = spectating_player.global_position
 	else:
 		move_and_slide(velocity)
 		position = slave_position
@@ -99,6 +102,7 @@ func destroy_tank():
 
 func set_player_name(nick):
 	$Display.init(nick,maxHealth)
+	nickname = nick
 	pass
 
 func shake_camera():
@@ -106,22 +110,24 @@ func shake_camera():
 	pass
 
 func _input(event):
-	if event is InputEventMouseButton and !is_alive():
-		if event.button_index == BUTTON_LEFT and !event.is_echo():
-			spectate_index += 1
-		elif event.button_index == BUTTON_RIGHT and !event.is_echo():
-			spectate_index -= 1
-		var players_alive = get_parent().get_players_alive()
-		if spectate_index < 0:
-			spectate_index = players_alive.size() - 1
-		elif spectate_index >= players_alive.size():
-			spectate_index = 0
-		print(spectate_index)
-		change_camera_to(spectate_index,players_alive)
+	if event is InputEventMouseButton and !event.is_echo() and event.is_pressed() and is_network_master():
+		if !is_alive():
+			if event.button_index == BUTTON_LEFT:
+				spectate_index += 1
+			elif event.button_index == BUTTON_RIGHT:
+				spectate_index -= 1
+			var players_alive = get_parent().get_players_alive()
+			if spectate_index < 0:
+				spectate_index = players_alive.size() - 1
+			elif spectate_index >= players_alive.size():
+				spectate_index = 0
+			change_camera_to(spectate_index,players_alive)
 	pass
 
 func change_camera_to(index, players):
-	players[index].get_node(\"Camera\").current = true
+	spectating_player = players[index]
+	if !is_alive():
+		$PlayerUI/Spectator.text = \"Spectating: \" + players[index].nickname
 	pass"
 _sections_unfolded = [ "Resource" ]
 
@@ -251,7 +257,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[node name="PlayerTank" type="KinematicBody2D" groups=[
+[node name="PlayerTank" type="KinematicBody2D" index="0" groups=[
 "Tank",
 ]]
 
@@ -314,6 +320,36 @@ visible = false
 texture = ExtResource( 6 )
 hframes = 7
 _sections_unfolded = [ "Animation", "Visibility" ]
+
+[node name="PlayerUI" type="CanvasLayer" parent="." index="8"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="Spectator" type="Label" parent="PlayerUI" index="0"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -97.0
+margin_top = 50.0
+margin_right = 103.0
+margin_bottom = 64.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+align = 1
+valign = 3
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [connection signal="timeout" from="ShootTime" to="." method="_on_ShootTime_timeout"]
 
