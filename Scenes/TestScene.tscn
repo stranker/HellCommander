@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Tileset/TileSahara.tres" type="TileSet" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+resource_name = "PlayersManager.gd"
+script/source = "extends Node
+
+func get_players_alive():
+	var players = get_children()
+	var players_alive = []
+	for p in players:
+		if p.is_alive():
+			players_alive.append(p)
+	return players_alive"
+_sections_unfolded = [ "Resource" ]
 
 [node name="TestScene" type="Node" index="0"]
 
@@ -56,5 +70,7 @@ position = Vector2( 944, 432 )
 position = Vector2( 912, 112 )
 
 [node name="Players" type="Node" parent="." index="3"]
+
+script = SubResource( 1 )
 
 

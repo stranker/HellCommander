@@ -53,13 +53,13 @@ func _process(delta):
 			turretRotation = $Turret.rotation
 			rset_unreliable('slave_turret_rotation', turretRotation)
 			$Camera.current = true
+		else:
+			$Camera.current = false
 	else:
 		move_and_slide(velocity)
 		position = slave_position
 		rotation = slave_rotation
 		$Turret.rotation = slave_turret_rotation
-	if !is_alive():
-		spectate_mode()
 	pass
 
 sync func shoot():
@@ -105,21 +105,23 @@ func shake_camera():
 	$Camera.shake(0.5,0.5)
 	pass
 
-func spectate_mode():
-	if Input.is_mouse_button_pressed(BUTTON_LEFT):
-		spectate_index += 1
-	if Input.is_mouse_button_pressed(BUTTON_RIGHT):
-		spectate_index -= 1
-	spectate_index = clamp(spectate_index,0,gamestate.players.keys().size())
-	change_camera_to(spectate_index)
-	for p in players:
-		if p != self:
-			p.get_node(\"Camera\").current = true
+func _input(event):
+	if event is InputEventMouseButton and !is_alive():
+		if event.button_index == BUTTON_LEFT and !event.is_echo():
+			spectate_index += 1
+		elif event.button_index == BUTTON_RIGHT and !event.is_echo():
+			spectate_index -= 1
+		var players_alive = get_parent().get_players_alive()
+		if spectate_index < 0:
+			spectate_index = players_alive.size() - 1
+		elif spectate_index >= players_alive.size():
+			spectate_index = 0
+		print(spectate_index)
+		change_camera_to(spectate_index,players_alive)
 	pass
 
-func change_camera_to():
-	var players = get_parent().get_children()
-	#if 
+func change_camera_to(index, players):
+	players[index].get_node(\"Camera\").current = true
 	pass"
 _sections_unfolded = [ "Resource" ]
 
@@ -249,7 +251,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[node name="PlayerTank" type="KinematicBody2D" index="0" groups=[
+[node name="PlayerTank" type="KinematicBody2D" groups=[
 "Tank",
 ]]
 
