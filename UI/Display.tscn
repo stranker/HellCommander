@@ -20,7 +20,11 @@ func update_health_bar(val):
 func _process(delta):
 	global_rotation = 0
 	pass
-"
+
+func deactivate():
+	set_process(false)
+	$HealthBar.hide()
+	$PlayerName.hide()"
 _sections_unfolded = [ "Resource" ]
 
 [node name="Display" type="Node2D"]

@@ -25,7 +25,7 @@ slave var slave_turret_rotation = 0
 var turretRotation = 0
 var rotationDir = 0
 var can_shoot = true
-
+var spectate_index = 0
 
 func _ready():
 	pass
@@ -34,29 +34,32 @@ func _process(delta):
 	rotationDir = 0
 	velocity = Vector2()
 	if is_network_master():
-		if Input.is_action_pressed(\"ui_right\"):
-			rotationDir += 1
-		elif Input.is_action_pressed(\"ui_left\"):
-			rotationDir -= 1
-		if Input.is_action_pressed(\"ui_down\"):
-			velocity = Vector2(-speed, 0).rotated(rotation)
-		elif Input.is_action_pressed(\"ui_up\"):
-			velocity = Vector2(speed, 0).rotated(rotation)
-		rotation += rotationDir * rotationSpeed * delta
-		rset_unreliable('slave_position', position)
-		rset_unreliable('slave_rotation', rotation)
-		move_and_slide(velocity)
-		$Turret.look_at(get_global_mouse_position())
-		turretRotation = $Turret.rotation
-		rset_unreliable('slave_turret_rotation', turretRotation)
-		$Camera.current = true
-		if Input.is_mouse_button_pressed(BUTTON_LEFT):
-			rpc(\"shoot\")
+		if is_alive():
+			if Input.is_action_pressed(\"ui_right\"):
+				rotationDir += 1
+			elif Input.is_action_pressed(\"ui_left\"):
+				rotationDir -= 1
+			if Input.is_action_pressed(\"ui_down\"):
+				velocity = Vector2(-speed, 0).rotated(rotation)
+			elif Input.is_action_pressed(\"ui_up\"):
+				velocity = Vector2(speed, 0).rotated(rotation)
+			$Turret.look_at(get_global_mouse_position())
+			if Input.is_mouse_button_pressed(BUTTON_LEFT):
+				rpc(\"shoot\")
+			rotation += rotationDir * rotationSpeed * delta
+			rset_unreliable('slave_position', position)
+			rset_unreliable('slave_rotation', rotation)
+			move_and_slide(velocity)
+			turretRotation = $Turret.rotation
+			rset_unreliable('slave_turret_rotation', turretRotation)
+			$Camera.current = true
 	else:
 		move_and_slide(velocity)
 		position = slave_position
 		rotation = slave_rotation
 		$Turret.rotation = slave_turret_rotation
+	if !is_alive():
+		spectate_mode()
 	pass
 
 sync func shoot():
@@ -81,12 +84,17 @@ func set_turret_rotation(val):
 func take_damage(val):
 	health -= val
 	$Display.update_health_bar(health)
-	if health <= 0:
+	if !is_alive():
 		destroy_tank()
 	pass
 
+func is_alive():
+	return health > 0
+
 func destroy_tank():
 	$Anim.play('Explosion')
+	$Colision.disabled = true
+	$Display.deactivate()
 	pass
 
 func set_player_name(nick):
@@ -96,7 +104,23 @@ func set_player_name(nick):
 func shake_camera():
 	$Camera.shake(0.5,0.5)
 	pass
-"
+
+func spectate_mode():
+	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		spectate_index += 1
+	if Input.is_mouse_button_pressed(BUTTON_RIGHT):
+		spectate_index -= 1
+	spectate_index = clamp(spectate_index,0,gamestate.players.keys().size())
+	change_camera_to(spectate_index)
+	for p in players:
+		if p != self:
+			p.get_node(\"Camera\").current = true
+	pass
+
+func change_camera_to():
+	var players = get_parent().get_children()
+	#if 
+	pass"
 _sections_unfolded = [ "Resource" ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -225,7 +249,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[node name="PlayerTank" type="KinematicBody2D" groups=[
+[node name="PlayerTank" type="KinematicBody2D" index="0" groups=[
 "Tank",
 ]]
 
@@ -255,7 +279,7 @@ _sections_unfolded = [ "Visibility" ]
 
 position = Vector2( 16.0979, -0.452896 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+[node name="Colision" type="CollisionShape2D" parent="." index="2"]
 
 shape = SubResource( 2 )
 _sections_unfolded = [ "Visibility" ]
