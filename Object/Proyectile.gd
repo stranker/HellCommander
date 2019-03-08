@@ -2,6 +2,7 @@ extends Area2D
 
 export var speed = 400.0
 export var time_to_destroy = 3
+var can_damage = true
 var tank_damage
 var tank_owner
 var direction = Vector2()
@@ -23,15 +24,28 @@ func initialize(dir, damage, player):
 	tank_owner = player
 
 func _on_Proyectile_body_entered(body):
-	if body.is_in_group('Tank') and body != tank_owner:
+	if body.is_in_group('Tank') and body != tank_owner and can_damage:
 		body.take_damage(tank_damage)
-		emit_signal('hit')
-		queue_free()
+		hit_something()
 	if body.name.find("Tile")>=0:
-		queue_free()
-		emit_signal('hit')
+		hit_something()
 	pass # replace with function body
 
+func hit_something():
+	can_damage = !can_damage
+	emit_signal('hit')
+	$Sprite.hide()
+	$Explosion.emitting = true
+	$Trail.emitting = false
+	set_process(false)
+	$LifetimeTimer.start()
+	pass
+
 func _on_DistanceTimer_timeout():
+	hit_something()
+	pass # replace with function body
+
+
+func _on_LifetimeTimer_timeout():
 	queue_free()
 	pass # replace with function body

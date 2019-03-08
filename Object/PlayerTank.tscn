@@ -446,7 +446,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Initial Velocity", "Trail" ]
 
-[node name="PlayerTank" type="KinematicBody2D" index="0" groups=[
+[node name="PlayerTank" type="KinematicBody2D" groups=[
 "Tank",
 ]]
 
