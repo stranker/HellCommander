@@ -16,7 +16,7 @@ func get_players_alive():
 	return players_alive"
 _sections_unfolded = [ "Resource" ]
 
-[node name="TestScene" type="Node" index="0"]
+[node name="TestScene" type="Node"]
 
 [node name="UI" type="CanvasLayer" parent="." index="0"]
 
