@@ -1,21 +1,36 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Sprites/HealthBarBack.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/HealthBarFront.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/BarBack.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/HealthBarBack.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/HealthBarFront.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/ShieldBarBack.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/ShieldBarFront.png" type="Texture" id=5]
 
 [sub_resource type="GDScript" id=1]
 
 resource_name = "Display.gd"
 script/source = "extends Node2D
 
-func init(nickname, health):
+func init(nickname, health, shield):
 	$HealthBar.max_value = health
 	$HealthBar.value = health
+	$HealthBarTween.value = health
+	$HealthBarTween.max_value = health
+	$ShieldBar.max_value = shield
+	$ShieldBar.value = shield
+	$ShieldBarTween.max_value = shield
+	$ShieldBarTween.value = shield
 	$PlayerName.text = nickname.to_upper()
 	pass
 
-func update_health_bar(val):
-	$HealthBar.value = val
+func update_display(hval,sval):
+	$HealthBar.value = hval
+	$ShieldBar.value = sval
+	$Tween.stop_all()
+	$Tween.interpolate_property($HealthBarTween,'value',$HealthBarTween.value,hval,1,Tween.TRANS_SINE,Tween.EASE_OUT)
+	$Tween.interpolate_property($ShieldBarTween,'value',$ShieldBarTween.value,sval,1,Tween.TRANS_SINE,Tween.EASE_OUT)
+	$Tween.start()
+	pass
 
 func _process(delta):
 	global_rotation = 0
@@ -23,8 +38,8 @@ func _process(delta):
 
 func deactivate():
 	set_process(false)
-	$HealthBar.hide()
-	$PlayerName.hide()"
+	hide()
+	pass"
 _sections_unfolded = [ "Resource" ]
 
 [node name="Display" type="Node2D"]
@@ -32,16 +47,78 @@ _sections_unfolded = [ "Resource" ]
 script = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="HealthBar" type="TextureProgress" parent="." index="0"]
+[node name="HealthBarTween" type="TextureProgress" parent="." index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -30.0
-margin_top = -33.0
-margin_right = 30.0
-margin_bottom = -23.0
+margin_left = -22.0
+margin_top = -34.0
+margin_right = 23.0
+margin_bottom = -28.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 5.0
+step = 1.0
+page = 0.0
+value = 5.0
+exp_edit = true
+rounded = false
+texture_under = ExtResource( 1 )
+texture_over = null
+texture_progress = ExtResource( 2 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = true
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="HealthBar" type="TextureProgress" parent="." index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -22.0
+margin_top = -34.0
+margin_right = 23.0
+margin_bottom = -28.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 5.0
+step = 1.0
+page = 0.0
+value = 4.0
+exp_edit = true
+rounded = false
+texture_under = null
+texture_over = null
+texture_progress = ExtResource( 3 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = true
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="ShieldBarTween" type="TextureProgress" parent="." index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -22.0
+margin_top = -27.0
+margin_right = 23.0
+margin_bottom = -21.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -57,22 +134,53 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 1 )
 texture_over = null
-texture_progress = ExtResource( 2 )
+texture_progress = ExtResource( 4 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = true
-_sections_unfolded = [ "Textures" ]
+_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="PlayerName" type="Label" parent="." index="1"]
+[node name="ShieldBar" type="TextureProgress" parent="." index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -22.0
+margin_top = -27.0
+margin_right = 23.0
+margin_bottom = -21.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 5.0
+step = 1.0
+page = 0.0
+value = 3.0
+exp_edit = false
+rounded = false
+texture_under = null
+texture_over = null
+texture_progress = ExtResource( 5 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = true
+_sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="PlayerName" type="Label" parent="." index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -66.0
-margin_top = -49.0
+margin_top = -48.0
 margin_right = 66.0
-margin_bottom = -35.0
+margin_bottom = -34.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -86,6 +194,15 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Rect", "custom_colors" ]
+_sections_unfolded = [ "custom_colors" ]
+
+[node name="Tween" type="Tween" parent="." index="5"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 
