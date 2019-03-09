@@ -36,9 +36,12 @@ func _process(delta):
 	global_rotation = 0
 	pass
 
-func deactivate():
-	set_process(false)
-	hide()
+func set_active(val):
+	set_process(val)
+	if val:
+		show()
+	else:
+		hide()
 	pass"
 _sections_unfolded = [ "Resource" ]
 
