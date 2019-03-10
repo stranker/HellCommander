@@ -36,7 +36,7 @@ _sections_unfolded = [ "Resource" ]
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 16.3999, 12.4021 )
+extents = Vector2( 11.4285, 8.03265 )
 
 [sub_resource type="Animation" id=3]
 
@@ -167,6 +167,7 @@ final_position = Vector2( 0, 0 )
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
 rotation = -0.174533
+scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 1 )
 _sections_unfolded = [ "Animation", "Transform" ]
 

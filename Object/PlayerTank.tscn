@@ -206,6 +206,7 @@ func double_damage():
 		tankDamage *= 2
 	$DoubleDamageTimer.start()
 	$Effects/DoubleDamage.restart()
+	$Display.activate_cooldown($DoubleDamageTimer.wait_time)
 	pass
 
 func _on_DoubleDamageTimer_timeout():
@@ -979,6 +980,8 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="Effects" type="Node2D" parent="." index="9"]
+
+editor/display_folded = true
 
 [node name="HealParticles" parent="Effects" index="0" instance=ExtResource( 7 )]
 
