@@ -24,6 +24,7 @@ func shake(amount,duration):
 
 func _on_Timer_timeout():
 	set_process(false)
+	offset = Vector2(0,0)
 	$Timer.stop()
 	pass # replace with function body
 "

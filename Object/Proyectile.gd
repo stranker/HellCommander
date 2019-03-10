@@ -7,7 +7,7 @@ var tank_damage
 var tank_owner
 var direction = Vector2()
 
-signal hit
+signal hit(distance)
 
 func _ready():
 	$DistanceTimer.wait_time = time_to_destroy
@@ -25,7 +25,7 @@ func initialize(dir, damage, player):
 
 func _on_Proyectile_body_entered(body):
 	if body.is_in_group('Tank') and body != tank_owner and body.is_alive() and can_damage:
-		rpc_id(body.name,'take_damage',tank_damage)
+		body.take_damage(tank_damage)
 		hit_something()
 	if body.name.find("Tile")>=0:
 		hit_something()
@@ -33,11 +33,11 @@ func _on_Proyectile_body_entered(body):
 
 func hit_something():
 	can_damage = !can_damage
-	emit_signal('hit')
-	$Sprite.hide()
+	emit_signal('hit',global_position.distance_to(tank_owner.global_position))
 	$Explosion.emitting = true
 	$Trail.emitting = false
 	set_process(false)
+	$Anim.play('Explosion')
 	$LifetimeTimer.start()
 	pass
 

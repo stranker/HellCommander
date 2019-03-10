@@ -23,7 +23,7 @@ func init(nickname, health, shield):
 	$PlayerName.text = nickname.to_upper()
 	pass
 
-func update_display(hval,sval):
+sync func update_display(hval,sval):
 	$HealthBar.value = hval
 	$ShieldBar.value = sval
 	$Tween.stop_all()

@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=2]
+
+resource_name = "ItemAreaSpawner"
+script/source = "extends Area2D
+
+export (Array, Object) var items
+export var min_time = 1
+export var max_time = 2
+onready var area = $CollisionShape2D.shape.extents
+
+func _ready():
+	randomize()
+	$SpawnTimer.wait_time = get_new_spawn_time()
+	$SpawnTimer.start()
+	pass
+
+
+
+func _on_SpawnTimer_timeout():
+	$SpawnTimer.wait_time = get_new_spawn_time()
+	$SpawnTimer.start()
+	spawn_item()
+	pass # replace with function body
+
+func get_new_spawn_time():
+	return rand_range(min_time,max_time)
+
+func spawn_item():
+	if !items.empty():
+		var item = items[rand_range(0,items.size())]
+		var new_pos = Vector2()
+		new_pos.x = rand_range(-area.x,area.x)
+		new_pos.y = rand_range(-area.y,area.y)
+		item.final_position = new_pos
+		get_tree().root.get_node('TestScene/Items').add_child(item)
+	pass"
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[node name="ItemAreaSpawner" type="Area2D"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = SubResource( 2 )
+items = null
+min_time = 1
+max_time = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
+
+shape = SubResource( 1 )
+
+[node name="SpawnTimer" type="Timer" parent="." index="1"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
+
+

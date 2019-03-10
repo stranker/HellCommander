@@ -1,20 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Tileset/TileSahara.tres" type="TileSet" id=1]
-
-[sub_resource type="GDScript" id=1]
-
-resource_name = "PlayersManager.gd"
-script/source = "extends Node
-
-func get_players_alive():
-	var players = get_children()
-	var players_alive = []
-	for p in players:
-		if p.is_alive():
-			players_alive.append(p)
-	return players_alive"
-_sections_unfolded = [ "Resource" ]
+[ext_resource path="res://Object/ToolBox.tscn" type="PackedScene" id=2]
 
 [sub_resource type="Environment" id=2]
 
@@ -94,6 +81,21 @@ adjustment_brightness = 1.0
 adjustment_contrast = 1.0
 adjustment_saturation = 1.0
 
+[sub_resource type="GDScript" id=1]
+
+resource_name = "PlayersManager.gd"
+script/source = "extends Node
+
+
+func get_players_alive():
+	var players = get_children()
+	var players_alive = []
+	for p in players:
+		if p.is_alive():
+			players_alive.append(p)
+	return players_alive"
+_sections_unfolded = [ "Resource" ]
+
 [node name="TestScene" type="Node"]
 
 [node name="UI" type="CanvasLayer" parent="." index="0"]
@@ -147,12 +149,20 @@ position = Vector2( 944, 432 )
 
 position = Vector2( 912, 112 )
 
-[node name="Players" type="Node" parent="." index="3"]
-
-script = SubResource( 1 )
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="4"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="3"]
 
 environment = SubResource( 2 )
+
+[node name="Items" type="Node" parent="." index="4"]
+
+[node name="ToolBox" parent="Items" index="0" instance=ExtResource( 2 )]
+
+position = Vector2( 432, -80 )
+_sections_unfolded = [ "Transform" ]
+final_position = Vector2( 432, 176 )
+
+[node name="Players" type="Node" parent="." index="5"]
+
+script = SubResource( 1 )
 
 
