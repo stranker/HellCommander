@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Object/Proyectile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/PlayerTank.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Object/CameraShake.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Sprites/Explosion.png" type="Texture" id=6]
 [ext_resource path="res://Object/Effect/HealParticles.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Sprites/Particle.png" type="Texture" id=8]
 
 [sub_resource type="GDScript" id=1]
 
@@ -61,10 +62,10 @@ func _process(delta):
 			turretRotation = $Turret.rotation
 			rset_unreliable('slave_turret_rotation', turretRotation)
 			$Camera.current = true
-			$Dust.emitting = velocity.length() > 0 or rotationDir != 0
-			$Dust2.emitting = velocity.length() > 0 or rotationDir != 0
-			$Trail.emitting = velocity.length() > 0 or rotationDir != 0
-			$Trail2.emitting = velocity.length() > 0 or rotationDir != 0
+			$Effects/Dust.emitting = velocity.length() > 0 or rotationDir != 0
+			$Effects/Dust2.emitting = velocity.length() > 0 or rotationDir != 0
+			$Effects/Trail.emitting = velocity.length() > 0 or rotationDir != 0
+			$Effects/Trail2.emitting = velocity.length() > 0 or rotationDir != 0
 		else:
 			if spectating_player:
 				position = spectating_player.global_position
@@ -95,7 +96,7 @@ sync func shoot():
 		$Turret/Tween.interpolate_property($Turret,'offset',$Turret.offset, Vector2(-2,0),0.1,Tween.TRANS_EXPO,Tween.EASE_IN)
 		$Turret/Tween.interpolate_property($Turret,'offset',$Turret.offset,Vector2(0,0),0.1,Tween.TRANS_LINEAR,Tween.EASE_OUT,0.2)
 		$Turret/Tween.start()
-		p.initialize(shootDir,tankDamage,self)
+		p.initialize(shootDir,tankDamage,$Effects/DoubleDamage.emitting,self)
 		p.connect('hit',self,'shake_camera')
 		$Turret/ShootPos/Particles.restart()
 		$ShootTime.start()
@@ -142,10 +143,10 @@ func initialize():
 	pass
 
 func set_active_particles(val):
-	$Exhaust.emitting = val
-	$Dust.emitting = val
-	$Dust2.emitting = val
-	$ExpParticles.emitting = !val
+	$Effects/Exhaust.emitting = val
+	$Effects/Dust.emitting = val
+	$Effects/Dust2.emitting = val
+	$Effects/ExpParticles.emitting = !val
 	pass
 
 func set_player_name(nick):
@@ -198,7 +199,21 @@ func repair_tank(val):
 
 func update_display():
 	$Display.update_display(health,shield)
-	pass"
+	pass
+
+func double_damage():
+	if $DoubleDamageTimer.is_stopped():
+		tankDamage *= 2
+	$DoubleDamageTimer.start()
+	$Effects/DoubleDamage.restart()
+	pass
+
+func _on_DoubleDamageTimer_timeout():
+	tankDamage /= 2
+	$DoubleDamageTimer.stop()
+	$Effects/DoubleDamage.emitting = false
+	pass # replace with function body
+"
 _sections_unfolded = [ "Resource" ]
 
 [sub_resource type="Gradient" id=2]
@@ -749,6 +764,85 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Initial Velocity", "Spread" ]
 
+[sub_resource type="Gradient" id=31]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0, 0.976563, 1, 0.961294 )
+
+[sub_resource type="GradientTexture" id=32]
+
+flags = 4
+gradient = SubResource( 31 )
+width = 2048
+
+[sub_resource type="Curve" id=33]
+
+min_value = 0.0
+max_value = 2.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0.140625 ), 0.0, 0.558244, 0, 0, Vector2( 1, 0.699219 ), 2.69195, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=34]
+
+flags = 4
+width = 2048
+curve = SubResource( 33 )
+
+[sub_resource type="Curve" id=35]
+
+min_value = 0.0
+max_value = 2.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0.763672 ), 0.0, -1.64687, 0, 0, Vector2( 1, 0 ), -0.8467, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=36]
+
+flags = 4
+width = 2048
+curve = SubResource( 35 )
+
+[sub_resource type="ParticlesMaterial" id=37]
+
+render_priority = 0
+trail_divisor = 50
+trail_size_modifier = SubResource( 36 )
+emission_shape = 1
+emission_sphere_radius = 20.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 180.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+initial_velocity_random = 0.5
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 1.0
+orbit_velocity_random = 0.5
+linear_accel = 25.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 20.0
+tangential_accel_random = 0.5
+damping = 20.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 0.0
+scale_random = 0.7
+scale_curve = SubResource( 34 )
+color_ramp = SubResource( 32 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Damping", "Emission Shape", "Gravity", "Initial Velocity", "Linear Accel", "Orbit Velocity", "Scale", "Spread", "Tangential Accel", "Trail" ]
+
 [node name="PlayerTank" type="KinematicBody2D" groups=[
 "Tank",
 ]]
@@ -884,7 +978,16 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Exhaust" type="Particles2D" parent="." index="9"]
+[node name="Effects" type="Node2D" parent="." index="9"]
+
+[node name="HealParticles" parent="Effects" index="0" instance=ExtResource( 7 )]
+
+emitting = false
+lifetime = 3.0
+one_shot = true
+speed_scale = 4.0
+
+[node name="Exhaust" type="Particles2D" parent="Effects" index="1"]
 
 show_behind_parent = true
 position = Vector2( -14.3591, -9.3946e-008 )
@@ -909,7 +1012,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Drawing", "Process Material", "Time", "Transform" ]
 
-[node name="Dust" type="Particles2D" parent="." index="10"]
+[node name="Dust" type="Particles2D" parent="Effects" index="2"]
 
 show_behind_parent = true
 position = Vector2( -15.9929, 13.1545 )
@@ -934,7 +1037,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Dust2" type="Particles2D" parent="." index="11"]
+[node name="Dust2" type="Particles2D" parent="Effects" index="3"]
 
 show_behind_parent = true
 position = Vector2( -15.3316, -12.8242 )
@@ -959,7 +1062,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Trail" type="Particles2D" parent="." index="12"]
+[node name="Trail" type="Particles2D" parent="Effects" index="4"]
 
 show_behind_parent = true
 position = Vector2( -14.6853, 13.6363 )
@@ -984,7 +1087,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
-[node name="Trail2" type="Particles2D" parent="." index="13"]
+[node name="Trail2" type="Particles2D" parent="Effects" index="5"]
 
 show_behind_parent = true
 position = Vector2( -13.7574, -13.0396 )
@@ -1009,7 +1112,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
-[node name="ExpParticles" type="Particles2D" parent="." index="14"]
+[node name="ExpParticles" type="Particles2D" parent="Effects" index="6"]
 
 emitting = false
 amount = 30
@@ -1031,15 +1134,37 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time" ]
 
-[node name="Effects" type="Node2D" parent="." index="15"]
-
-[node name="HealParticles" parent="Effects" index="0" instance=ExtResource( 7 )]
+[node name="DoubleDamage" type="Particles2D" parent="Effects" index="7"]
 
 emitting = false
-lifetime = 3.0
+amount = 200
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 0.7
+explosiveness = 0.0
+randomness = 0.5
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 37 )
+texture = ExtResource( 8 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time" ]
+
+[node name="DoubleDamageTimer" type="Timer" parent="." index="10"]
+
+process_mode = 1
+wait_time = 5.0
 one_shot = true
-speed_scale = 4.0
+autostart = false
 
 [connection signal="timeout" from="ShootTime" to="." method="_on_ShootTime_timeout"]
+
+[connection signal="timeout" from="DoubleDamageTimer" to="." method="_on_DoubleDamageTimer_timeout"]
 
 

@@ -3,7 +3,7 @@
 [ext_resource path="res://Tileset/TileSahara.tres" type="TileSet" id=1]
 [ext_resource path="res://Object/ItemAreaSpawner.tscn" type="PackedScene" id=2]
 
-[sub_resource type="Environment" id=2]
+[sub_resource type="Environment" id=1]
 
 background_mode = 0
 background_sky_custom_fov = 0.0
@@ -81,9 +81,8 @@ adjustment_brightness = 1.0
 adjustment_contrast = 1.0
 adjustment_saturation = 1.0
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=2]
 
-resource_name = "PlayersManager.gd"
 script/source = "extends Node
 
 
@@ -129,6 +128,8 @@ _sections_unfolded = [ "Cell" ]
 
 [node name="SpawnPoints" type="Node" parent="." index="2"]
 
+editor/display_folded = true
+
 [node name="Pos0" type="Position2D" parent="SpawnPoints" index="0"]
 
 position = Vector2( 240, 64 )
@@ -151,17 +152,18 @@ position = Vector2( 912, 112 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." index="3"]
 
-environment = SubResource( 2 )
+environment = SubResource( 1 )
 
-[node name="Items" type="Node" parent="." index="4"]
+[node name="Items" type="YSort" parent="." index="4"]
+
+sort_enabled = true
 
 [node name="Players" type="Node" parent="." index="5"]
 
-script = SubResource( 1 )
+script = SubResource( 2 )
 
 [node name="ItemAreaSpawner" parent="." index="6" instance=ExtResource( 2 )]
 
-position = Vector2( 544, 336 )
+position = Vector2( 160, 224 )
 
 
-[editable path="ItemAreaSpawner"]

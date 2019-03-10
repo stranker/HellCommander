@@ -1,14 +1,13 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Sprites/Toolbox.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/DoubleDamage.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Parachute.png" type="Texture" id=2]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=7]
 
-resource_name = "Toolbox.gd"
+resource_name = "DoubleDamage.gd"
 script/source = "extends Area2D
 
-export var repair_points = 2
 var on_ground = false
 var activated = false
 export var final_position = Vector2()
@@ -18,10 +17,10 @@ func _ready():
 	$Tween.start()
 	pass
 
-func _on_ToolBox_body_entered(body):
+func _on_DoubleDamage_body_entered(body):
 	if body.is_in_group('Tank') and !activated and on_ground:
 		activated = !activated
-		body.repair_tank(repair_points)
+		body.double_damage()
 		$Anim.play('Taken')
 	pass # replace with function body
 
@@ -37,7 +36,7 @@ _sections_unfolded = [ "Resource" ]
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 16.3999, 14.1525 )
+extents = Vector2( 16.3999, 12.4021 )
 
 [sub_resource type="Animation" id=3]
 
@@ -153,7 +152,7 @@ tracks/1/keys = {
 } ]
 }
 
-[node name="ToolBox" type="Area2D"]
+[node name="DoubleDamage" type="Area2D"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -162,8 +161,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 1 )
-repair_points = 2
+script = SubResource( 7 )
 final_position = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
@@ -206,7 +204,7 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
-[connection signal="body_entered" from="." to="." method="_on_ToolBox_body_entered"]
+[connection signal="body_entered" from="." to="." method="_on_DoubleDamage_body_entered"]
 
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
 

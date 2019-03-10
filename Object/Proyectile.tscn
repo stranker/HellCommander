@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Object/Proyectile.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/ProyectileExplosion.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Shoot.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Shoot.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/ProyectileExplosion.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Particle.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -25,7 +26,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 2 ) ]
+"values": [ ExtResource( 3 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:hframes")
@@ -115,7 +116,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 3 ) ]
+"values": [ ExtResource( 2 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Sprite:hframes")
@@ -244,7 +245,112 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Initial Velocity", "Scale", "Spread" ]
 
-[node name="Proyectile" type="Area2D"]
+[sub_resource type="Gradient" id=21]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=22]
+
+flags = 4
+gradient = SubResource( 21 )
+width = 2048
+
+[sub_resource type="Curve" id=19]
+
+min_value = -2.0
+max_value = 2.0
+bake_resolution = 100
+_data = [ Vector2( 0, -1.71875 ), 0.0, 13.3317, 0, 0, Vector2( 0.496355, 0.601563 ), 0.0, 0.0, 0, 0, Vector2( 1, -2 ), -14.9296, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=20]
+
+flags = 4
+width = 2048
+curve = SubResource( 19 )
+
+[sub_resource type="Curve" id=23]
+
+min_value = -20.0
+max_value = 20.0
+bake_resolution = 100
+_data = [ Vector2( 0, 20 ), 0.0, 0.0, 0, 0, Vector2( 1, -20 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=24]
+
+flags = 4
+width = 2048
+curve = SubResource( 23 )
+
+[sub_resource type="Gradient" id=17]
+
+offsets = PoolRealArray( 0, 0.443787, 1 )
+colors = PoolColorArray( 1, 0.164063, 0, 0.425412, 1, 0.398438, 0, 0.889529, 1, 0.9375, 0, 1 )
+
+[sub_resource type="GradientTexture" id=18]
+
+flags = 4
+gradient = SubResource( 17 )
+width = 2048
+
+[sub_resource type="Curve" id=14]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 1 ), 0.0, 0.156523, 0, 0, Vector2( 0.598427, 0.220703 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -0.549597, 0.0, 1, 0 ]
+
+[sub_resource type="CurveTexture" id=15]
+
+flags = 4
+width = 2048
+curve = SubResource( 14 )
+
+[sub_resource type="ParticlesMaterial" id=16]
+
+render_priority = 0
+trail_divisor = 120
+trail_size_modifier = SubResource( 15 )
+trail_color_modifier = SubResource( 18 )
+emission_shape = 1
+emission_sphere_radius = 2.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 0.0
+flatness = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.2
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.5
+tangential_accel_curve = SubResource( 24 )
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 0.45
+scale_random = 0.2
+scale_curve = SubResource( 20 )
+color_ramp = SubResource( 22 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Initial Velocity", "Scale", "Spread" ]
+
+[node name="Proyectile" type="Area2D" index="0"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -264,8 +370,7 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="." index="1"]
 
 texture = ExtResource( 2 )
-hframes = 6
-frame = 5
+vframes = 4
 _sections_unfolded = [ "Animation", "Visibility" ]
 
 [node name="Anim" type="AnimationPlayer" parent="." index="2"]
@@ -292,7 +397,7 @@ show_behind_parent = true
 position = Vector2( -2.25414, 0.314024 )
 rotation = 3.14159
 emitting = true
-amount = 10
+amount = 3
 lifetime = 1.0
 one_shot = false
 preprocess = 0.0
@@ -339,6 +444,30 @@ process_mode = 1
 wait_time = 2.0
 one_shot = true
 autostart = false
+
+[node name="DoubleDamage" type="Particles2D" parent="." index="7"]
+
+position = Vector2( 6.00504, 0.387436 )
+rotation = 3.14159
+emitting = true
+amount = 250
+lifetime = 1.0
+one_shot = false
+preprocess = 0.5
+speed_scale = 2.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = false
+draw_order = 0
+process_material = SubResource( 16 )
+texture = ExtResource( 4 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time", "Transform" ]
 
 [connection signal="body_entered" from="." to="." method="_on_Proyectile_body_entered"]
 
