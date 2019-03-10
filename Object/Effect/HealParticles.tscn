@@ -66,7 +66,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Damping", "Initial Velocity", "Scale", "Spread" ]
 
-[node name="HealParticles" type="Particles2D" index="0"]
+[node name="HealParticles" type="Particles2D"]
 
 emitting = true
 amount = 12
