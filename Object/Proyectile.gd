@@ -35,7 +35,7 @@ func initialize(dir, damage, _double_damage, player):
 
 func _on_Proyectile_body_entered(body):
 	if body.is_in_group('Tank') and body != tank_owner and body.is_alive() and can_damage:
-		body.take_damage(tank_damage)
+		body.take_damage(tank_damage,tank_owner)
 		hit_something()
 	if body.name.find("Tile")>=0:
 		hit_something()
