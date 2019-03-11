@@ -56,6 +56,8 @@ func set_active(val):
 		show()
 	else:
 		hide()
+		$Anim.stop()
+		$DamageIndicator.hide()
 	pass
 
 func activate_cooldown(time):
@@ -125,7 +127,7 @@ tracks/2/keys = {
 } ]
 }
 
-[node name="Display" type="Node2D" index="0"]
+[node name="Display" type="Node2D"]
 
 script = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
