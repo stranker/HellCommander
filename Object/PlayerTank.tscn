@@ -219,31 +219,31 @@ func _on_DoubleDamageTimer_timeout():
 "
 _sections_unfolded = [ "Resource" ]
 
-[sub_resource type="Gradient" id=38]
+[sub_resource type="Gradient" id=2]
 
 offsets = PoolRealArray( 0, 0.604651, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=39]
+[sub_resource type="GradientTexture" id=3]
 
 flags = 4
-gradient = SubResource( 38 )
+gradient = SubResource( 2 )
 width = 2048
 
-[sub_resource type="Curve" id=40]
+[sub_resource type="Curve" id=4]
 
 min_value = 0.0
 max_value = 2.5
 bake_resolution = 100
 _data = [ Vector2( 0, 0.269531 ), 0.0, 0.410847, 0, 0, Vector2( 1, 2.5 ), 4.40286, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=41]
+[sub_resource type="CurveTexture" id=5]
 
 flags = 4
 width = 2048
-curve = SubResource( 40 )
+curve = SubResource( 4 )
 
-[sub_resource type="ParticlesMaterial" id=42]
+[sub_resource type="ParticlesMaterial" id=6]
 
 render_priority = 0
 trail_divisor = 1
@@ -272,8 +272,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.5
-scale_curve = SubResource( 41 )
-color_ramp = SubResource( 39 )
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -283,31 +283,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Gradient" id=26]
+[sub_resource type="Gradient" id=7]
 
 offsets = PoolRealArray( 0, 0.230769, 0.621302, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.914063, 0, 1, 1, 0, 0, 0.54698, 0, 0, 0, 0.370157 )
 
-[sub_resource type="GradientTexture" id=27]
+[sub_resource type="GradientTexture" id=8]
 
 flags = 4
-gradient = SubResource( 26 )
+gradient = SubResource( 7 )
 width = 2048
 
-[sub_resource type="Curve" id=28]
+[sub_resource type="Curve" id=9]
 
 min_value = 0.0
 max_value = 15.0
 bake_resolution = 100
 _data = [ Vector2( 0, 3.95508 ), 0.0, 0.0, 0, 0, Vector2( 1, 15 ), 34.1886, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=29]
+[sub_resource type="CurveTexture" id=10]
 
 flags = 4
 width = 2048
-curve = SubResource( 28 )
+curve = SubResource( 9 )
 
-[sub_resource type="ParticlesMaterial" id=30]
+[sub_resource type="ParticlesMaterial" id=11]
 
 render_priority = 0
 trail_divisor = 1
@@ -337,8 +337,8 @@ angle = 360.0
 angle_random = 0.5
 scale = 2.0
 scale_random = 0.5
-scale_curve = SubResource( 29 )
-color_ramp = SubResource( 27 )
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 8 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -348,48 +348,48 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Initial Velocity", "Spread" ]
 
-[sub_resource type="Gradient" id=31]
+[sub_resource type="Gradient" id=12]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 0, 0.976563, 1, 0.961294 )
 
-[sub_resource type="GradientTexture" id=32]
+[sub_resource type="GradientTexture" id=13]
 
 flags = 4
-gradient = SubResource( 31 )
+gradient = SubResource( 12 )
 width = 2048
 
-[sub_resource type="Curve" id=33]
+[sub_resource type="Curve" id=14]
 
 min_value = 0.0
 max_value = 2.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.140625 ), 0.0, 0.558244, 0, 0, Vector2( 1, 0.699219 ), 2.69195, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=34]
+[sub_resource type="CurveTexture" id=15]
 
 flags = 4
 width = 2048
-curve = SubResource( 33 )
+curve = SubResource( 14 )
 
-[sub_resource type="Curve" id=35]
+[sub_resource type="Curve" id=16]
 
 min_value = 0.0
 max_value = 2.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.763672 ), 0.0, -1.64687, 0, 0, Vector2( 1, 0 ), -0.8467, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=36]
+[sub_resource type="CurveTexture" id=17]
 
 flags = 4
 width = 2048
-curve = SubResource( 35 )
+curve = SubResource( 16 )
 
-[sub_resource type="ParticlesMaterial" id=37]
+[sub_resource type="ParticlesMaterial" id=18]
 
 render_priority = 0
 trail_divisor = 50
-trail_size_modifier = SubResource( 36 )
+trail_size_modifier = SubResource( 17 )
 emission_shape = 1
 emission_sphere_radius = 20.0
 flag_align_y = false
@@ -416,8 +416,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 0.0
 scale_random = 0.7
-scale_curve = SubResource( 34 )
-color_ramp = SubResource( 32 )
+scale_curve = SubResource( 15 )
+color_ramp = SubResource( 13 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -427,31 +427,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Damping", "Emission Shape", "Gravity", "Initial Velocity", "Linear Accel", "Orbit Velocity", "Scale", "Spread", "Tangential Accel", "Trail" ]
 
-[sub_resource type="Gradient" id=13]
+[sub_resource type="Gradient" id=19]
 
 offsets = PoolRealArray( 0, 0.532544, 1 )
 colors = PoolColorArray( 0.191406, 0.191406, 0.191406, 1, 0.414063, 0.414063, 0.414063, 1, 1, 1, 1, 0.276275 )
 
-[sub_resource type="GradientTexture" id=14]
+[sub_resource type="GradientTexture" id=20]
 
 flags = 4
-gradient = SubResource( 13 )
+gradient = SubResource( 19 )
 width = 2048
 
-[sub_resource type="Curve" id=15]
+[sub_resource type="Curve" id=21]
 
 min_value = 0.0
 max_value = 4.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1.93102 ), 0.0, 0.0, 0, 0, Vector2( 0.501458, 2.28971 ), 0.0, 0.0, 0, 0, Vector2( 1, 3.14503 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=16]
+[sub_resource type="CurveTexture" id=22]
 
 flags = 4
 width = 2048
-curve = SubResource( 15 )
+curve = SubResource( 21 )
 
-[sub_resource type="ParticlesMaterial" id=17]
+[sub_resource type="ParticlesMaterial" id=23]
 
 render_priority = 0
 trail_divisor = 1
@@ -480,8 +480,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 16 )
-color_ramp = SubResource( 14 )
+scale_curve = SubResource( 22 )
+color_ramp = SubResource( 20 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -491,31 +491,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Spread" ]
 
-[sub_resource type="Gradient" id=18]
+[sub_resource type="Gradient" id=24]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0.546875, 0.397339, 0, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=19]
+[sub_resource type="GradientTexture" id=25]
 
 flags = 4
-gradient = SubResource( 18 )
+gradient = SubResource( 24 )
 width = 2048
 
-[sub_resource type="Curve" id=20]
+[sub_resource type="Curve" id=26]
 
 min_value = 0.0
 max_value = 4.0
 bake_resolution = 100
 _data = [ Vector2( 0, 2.73117 ), 0.0, 0.0, 0, 0, Vector2( 1, 4 ), 4.95918, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=21]
+[sub_resource type="CurveTexture" id=27]
 
 flags = 4
 width = 2048
-curve = SubResource( 20 )
+curve = SubResource( 26 )
 
-[sub_resource type="ParticlesMaterial" id=22]
+[sub_resource type="ParticlesMaterial" id=28]
 
 render_priority = 0
 trail_divisor = 1
@@ -545,8 +545,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 21 )
-color_ramp = SubResource( 19 )
+scale_curve = SubResource( 27 )
+color_ramp = SubResource( 25 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -556,18 +556,18 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Scale", "Spread" ]
 
-[sub_resource type="Gradient" id=23]
+[sub_resource type="Gradient" id=29]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0.203125, 0.152722, 0.0658569, 1, 0.210938, 0.156542, 0.0716858, 0 )
 
-[sub_resource type="GradientTexture" id=24]
+[sub_resource type="GradientTexture" id=30]
 
 flags = 4
-gradient = SubResource( 23 )
+gradient = SubResource( 29 )
 width = 2048
 
-[sub_resource type="ParticlesMaterial" id=25]
+[sub_resource type="ParticlesMaterial" id=31]
 
 render_priority = 0
 trail_divisor = 5
@@ -596,7 +596,7 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-color_ramp = SubResource( 24 )
+color_ramp = SubResource( 30 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -606,31 +606,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angle", "Color", "Initial Velocity", "Trail" ]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=32]
 
 offsets = PoolRealArray( 0, 0.39645, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 0.265625, 0.265625, 0.265625, 0.715582, 0, 0, 0, 0.0386667 )
 
-[sub_resource type="GradientTexture" id=3]
+[sub_resource type="GradientTexture" id=33]
 
 flags = 4
-gradient = SubResource( 2 )
+gradient = SubResource( 32 )
 width = 2048
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=34]
 
 min_value = 0.0
 max_value = 10.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.942382 ), 0.0, 0.0, 0, 0, Vector2( 0.710707, 9.18945 ), 3.98208, 3.98208, 0, 0, Vector2( 1, 10 ), 5.2004, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=5]
+[sub_resource type="CurveTexture" id=35]
 
 flags = 4
 width = 2048
-curve = SubResource( 4 )
+curve = SubResource( 34 )
 
-[sub_resource type="ParticlesMaterial" id=6]
+[sub_resource type="ParticlesMaterial" id=36]
 
 render_priority = 0
 trail_divisor = 1
@@ -659,8 +659,8 @@ angle = 360.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.2
-scale_curve = SubResource( 5 )
-color_ramp = SubResource( 3 )
+scale_curve = SubResource( 35 )
+color_ramp = SubResource( 33 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -670,12 +670,12 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Damping", "Initial Velocity", "Scale", "Spread", "Trail" ]
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=37]
 
 custom_solver_bias = 0.0
 extents = Vector2( 15.7986, 14.9761 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=38]
 
 length = 1.0
 loop = false
@@ -741,7 +741,7 @@ tracks/4/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=39]
 
 length = 0.3
 loop = true
@@ -783,7 +783,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=40]
 
 length = 1.0
 loop = false
@@ -837,7 +837,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=41]
 
 length = 0.1
 loop = false
@@ -879,9 +879,8 @@ tracks/2/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=42]
 
-resource_name = "ReceiveDamage"
 length = 0.6
 loop = false
 step = 0.1
@@ -910,7 +909,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="PlayerTank" type="KinematicBody2D" index="0" groups=[
+[node name="PlayerTank" type="KinematicBody2D" groups=[
 "Tank",
 ]]
 
@@ -946,7 +945,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 42 )
+process_material = SubResource( 6 )
 texture = ExtResource( 2 )
 normal_map = null
 h_frames = 1
@@ -968,7 +967,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 30 )
+process_material = SubResource( 11 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -990,7 +989,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 37 )
+process_material = SubResource( 18 )
 texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
@@ -1019,7 +1018,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 17 )
+process_material = SubResource( 23 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -1044,7 +1043,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 22 )
+process_material = SubResource( 28 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -1069,7 +1068,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 22 )
+process_material = SubResource( 28 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -1094,7 +1093,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 25 )
+process_material = SubResource( 31 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -1119,7 +1118,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 25 )
+process_material = SubResource( 31 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -1160,7 +1159,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 6 )
+process_material = SubResource( 36 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -1178,7 +1177,7 @@ playback/speed = 1.0
 
 [node name="Colision" type="CollisionShape2D" parent="." index="4"]
 
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="ShootTime" type="Timer" parent="." index="5"]
@@ -1199,11 +1198,11 @@ autoplay = "Appear"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/Appear = SubResource( 8 )
-anims/Driving = SubResource( 9 )
-anims/Explosion = SubResource( 10 )
-anims/Idle = SubResource( 11 )
-anims/ReceiveDamage = SubResource( 12 )
+anims/Appear = SubResource( 38 )
+anims/Driving = SubResource( 39 )
+anims/Explosion = SubResource( 40 )
+anims/Idle = SubResource( 41 )
+anims/ReceiveDamage = SubResource( 42 )
 blend_times = [  ]
 
 [node name="Explosion" type="Sprite" parent="." index="9"]

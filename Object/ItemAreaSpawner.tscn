@@ -15,28 +15,34 @@ onready var area = $CollisionShape2D.shape.extents
 
 func _ready():
 	randomize()
-	$SpawnTimer.wait_time = get_new_spawn_time()
-	$SpawnTimer.start()
+	if get_tree().is_network_server():
+		$SpawnTimer.wait_time = get_new_spawn_time()
+		$SpawnTimer.start()
 	pass
 
 func _on_SpawnTimer_timeout():
 	$SpawnTimer.wait_time = get_new_spawn_time()
 	$SpawnTimer.start()
-	rpc('spawn_item')
+	rpc('get_random_pos')
 	pass # replace with function body
 
 func get_new_spawn_time():
 	return rand_range(min_time,max_time)
 
-sync func spawn_item():
+master func get_random_pos():
 	if !items.empty():
-		var item = items[rand_range(0,items.size())].instance()
 		var new_pos = Vector2()
 		new_pos.x = rand_range(-area.x / 2,area.x / 2) + global_position.x
 		new_pos.y = rand_range(-area.y / 2 ,area.y / 2) + global_position.y
-		item.final_position = new_pos
-		item.global_position = new_pos + Vector2(0,-400)
-		get_tree().root.get_node('TestScene/Items').add_child(item)
+		var item = items[rand_range(0,items.size())]
+		rpc('spawn_item',item,new_pos)
+	pass
+
+sync func spawn_item(item,pos):
+	var i = item.instance()
+	i.final_position = pos
+	i.global_position = pos + Vector2(0,-get_viewport_rect().size.y)
+	get_tree().root.get_node('TestScene/Items').add_child(i)
 	pass"
 _sections_unfolded = [ "Resource" ]
 
