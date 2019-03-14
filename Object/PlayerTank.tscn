@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Object/Proyectile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Heal.png" type="Texture" id=2]
@@ -22,9 +22,9 @@ export var tankDamage = 1
 export var rotationSpeed = 1.5
 export (PackedScene) var proyectile
 var velocity = Vector2()
-slave var slave_position = Vector2()
-slave var slave_rotation = 0
-slave var slave_turret_rotation = 0
+puppet var slave_position = Vector2()
+puppet var slave_rotation = 0
+puppet var slave_turret_rotation = 0
 var turretRotation = 0
 var rotationDir = 0
 var can_shoot = true
@@ -224,8 +224,7 @@ func _on_DoubleDamageTimer_timeout():
 	tankDamage /= 2
 	$DoubleDamageTimer.stop()
 	$Effects/DoubleDamage.emitting = false
-	pass # replace with function body
-"
+	pass # replace with function body"
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.604651, 1 )
@@ -247,6 +246,7 @@ spread = 180.0
 flatness = 1.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 25.0
+angular_velocity = -2.22624e-034
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 damping = 10.0
@@ -650,6 +650,35 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="GDScript" id=44]
+resource_name = "Detector.gd"
+script/source = "extends Area2D
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+func _on_Detector_area_entered(area):
+	if area.name == 'RoundCircle':
+		area.register_player(get_parent())
+	pass # Replace with function body.
+
+
+func _on_Detector_area_exited(area):
+	if area.name == 'RoundCircle':
+		area.unregister_player(get_parent())
+	pass # Replace with function body.
+
+
+func _on_Detector_tree_entered():
+	get_tree().root.get_node('GameScene/RoundCircle').unregister_player(get_parent())
+	pass # Replace with function body.
+"
+
+[sub_resource type="CircleShape2D" id=43]
+radius = 21.905
+
 [node name="PlayerTank" type="KinematicBody2D" groups=[
 "Tank",
 ]]
@@ -803,5 +832,15 @@ valign = 3
 wait_time = 7.0
 one_shot = true
 
+[node name="Detector" type="Area2D" parent="."]
+editor/display_folded = true
+script = SubResource( 44 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+shape = SubResource( 43 )
+
 [connection signal="timeout" from="ShootTime" to="." method="_on_ShootTime_timeout"]
 [connection signal="timeout" from="DoubleDamageTimer" to="." method="_on_DoubleDamageTimer_timeout"]
+[connection signal="area_entered" from="Detector" to="Detector" method="_on_Detector_area_entered"]
+[connection signal="area_exited" from="Detector" to="Detector" method="_on_Detector_area_exited"]
+[connection signal="tree_entered" from="Detector" to="Detector" method="_on_Detector_tree_entered"]
