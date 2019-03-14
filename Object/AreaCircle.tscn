@@ -8,62 +8,73 @@ script/source = "extends Area2D
 export var max_circle_level : int = 5
 export var circle_level : int = 0
 export var circle_damage : float = 0.5
-export var circle_radius : float = 100
+export var circle_radius : float = 300
 onready var circle = $CollisionShape2D.shape as CircleShape2D
 var players_out = []
 
 func _ready():
+	if get_tree().is_network_server():
+		$ReduceTimer.start()
 	$DamageTimer.start()
 	circle.radius = circle_radius
 	$OuterCircle.scale = circle_radius * $OuterCircle.scale / 500
 	$InnerCircle.scale = $OuterCircle.scale
+	pass
 
 func _on_Timer_timeout():
 	if circle_level < max_circle_level:
-		reduce_circle()
+		rpc('new_inner_circle')
 	else:
 		$ReduceTimer.stop()
 	pass # Replace with function body.
 
-func reduce_circle():
+master func new_inner_circle():
 	circle_level += 1
 	var new_pos = Vector2()
 	var offset = circle_radius - 2 * circle_radius / 1.5 + circle_radius / 1.5
 	new_pos.x = $CollisionShape2D.position.x + rand_range(-offset,offset)
 	new_pos.y = $CollisionShape2D.position.y + rand_range(-offset,offset)
+	rpc('reduce_circle',new_pos)
+	pass
+
+sync func reduce_circle(pos):
 	circle_radius /= 1.5
 	$InnerCircle.scale /= 1.5
-	$InnerCircle.position = new_pos
+	$InnerCircle.position = pos
 	$Tween.stop_all()
 	$Tween.interpolate_property(circle,'radius',circle.radius, circle_radius,4,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
 	$Tween.interpolate_property($OuterCircle,'scale',$OuterCircle.scale, $OuterCircle.scale/1.5,4,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-	$Tween.interpolate_property($OuterCircle, 'position', $OuterCircle.position, new_pos, 4,Tween.TRANS_LINEAR,Tween.EASE_IN)
-	$Tween.interpolate_property($CollisionShape2D, 'position', $CollisionShape2D.position, new_pos, 4,Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.interpolate_property($OuterCircle, 'position', $OuterCircle.position, pos, 4,Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.interpolate_property($CollisionShape2D, 'position', $CollisionShape2D.position, pos, 4,Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.start()
 	pass
 
 func _on_DamageTimer_timeout():
+	rpc('damage_tanks')
+	pass # Replace with function body.
+
+sync func damage_tanks():
 	for player in players_out:
 		player.take_circle_damage(circle_damage)
 	$DamageTimer.start()
-	pass # Replace with function body.
+	pass
 
-func register_player(player):
+sync func register_player(player):
 	players_out.erase(player)
 	pass
 
-func unregister_player(player):
+sync func unregister_player(player):
 	if is_player_outside(player):
 		players_out.append(player)
 	pass
 
 func is_player_outside(p):
-	return p.global_position.distance_to(global_position) > circle.radius"
+	return p.global_position.distance_to(global_position) > circle_radius"
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 500.0
 
-[node name="RoundCircle" type="Area2D"]
+[node name="AreaCircle" type="Area2D"]
 script = SubResource( 1 )
 
 [node name="OuterCircle" type="Sprite" parent="."]
@@ -79,10 +90,8 @@ shape = SubResource( 2 )
 
 [node name="ReduceTimer" type="Timer" parent="."]
 wait_time = 5.0
-autostart = true
 
 [node name="DamageTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="Tween" type="Tween" parent="."]
 

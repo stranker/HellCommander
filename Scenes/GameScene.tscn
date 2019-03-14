@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Tileset/TileSahara.tres" type="TileSet" id=1]
 [ext_resource path="res://Object/ItemAreaSpawner.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Object/RoundCircle.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Object/AreaCircle.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Environment" id=1]
 
@@ -58,6 +58,6 @@ position = Vector2( 160, 224 )
 min_time = 2
 max_time = 4
 
-[node name="RoundCircle" parent="." instance=ExtResource( 3 )]
+[node name="AreaCircle" parent="." instance=ExtResource( 3 )]
 position = Vector2( 617.327, 362.973 )
 

@@ -33,6 +33,7 @@ var nickname
 var spectating_player = null
 var current_anim = ''
 var new_anim = ''
+var destroyed = false
 
 func _ready():
 	current_anim = 'Appear'
@@ -108,9 +109,12 @@ func _on_ShootTime_timeout():
 func set_turret_rotation(val):
 	$Turret.rotation = val
 
-master func take_tank_damage(val,enemy):
+sync func take_tank_damage(val,enemy):
 	if shield > 0:
 		shield -= val
+		if shield < 0:
+			health -= val
+			$Anim.play(\"ReceiveDamage\")
 	else:
 		health -= val
 		$Anim.play(\"ReceiveDamage\")
@@ -121,7 +125,7 @@ master func take_tank_damage(val,enemy):
 		rpc('destroy_tank')
 	pass
 
-func take_circle_damage(val):
+sync func take_circle_damage(val):
 	if is_alive():
 		health -= val
 		update_display()
@@ -133,13 +137,15 @@ func is_alive():
 	return health > 0
 
 sync func destroy_tank():
-	new_anim = 'Explosion'
-	$Colision.disabled = !is_alive()
-	$Display.set_active(false)
-	set_active_particles(is_alive())
-	for particles in $Effects.get_children():
-		particles.emitting = false
-	$Effects/ExpParticles.emitting = true
+	if !destroyed:
+		destroyed = !destroyed
+		new_anim = 'Explosion'
+		$Colision.disabled = !is_alive()
+		$Display.set_active(false)
+		set_active_particles(is_alive())
+		for particles in $Effects.get_children():
+			particles.emitting = false
+		$Effects/ExpParticles.emitting = true
 	pass
 
 func initialize():
@@ -276,6 +282,7 @@ spread = 180.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 50.0
 initial_velocity_random = 0.2
+angular_velocity = -3.19457e+038
 angular_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
@@ -318,6 +325,7 @@ spread = 180.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 20.0
 initial_velocity_random = 0.5
+angular_velocity = -3.19457e+038
 orbit_velocity = 1.0
 orbit_velocity_random = 0.5
 linear_accel = 25.0
@@ -650,7 +658,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="GDScript" id=44]
+[sub_resource type="GDScript" id=43]
 resource_name = "Detector.gd"
 script/source = "extends Area2D
 
@@ -660,23 +668,23 @@ func _ready():
 
 
 func _on_Detector_area_entered(area):
-	if area.name == 'RoundCircle':
+	if area.name == 'AreaCircle':
 		area.register_player(get_parent())
 	pass # Replace with function body.
 
 
 func _on_Detector_area_exited(area):
-	if area.name == 'RoundCircle':
+	if area.name == 'AreaCircle':
 		area.unregister_player(get_parent())
 	pass # Replace with function body.
 
 
 func _on_Detector_tree_entered():
-	get_tree().root.get_node('GameScene/RoundCircle').unregister_player(get_parent())
+	get_tree().root.get_node('GameScene/AreaCircle').unregister_player(get_parent())
 	pass # Replace with function body.
 "
 
-[sub_resource type="CircleShape2D" id=43]
+[sub_resource type="CircleShape2D" id=44]
 radius = 21.905
 
 [node name="PlayerTank" type="KinematicBody2D" groups=[
@@ -834,10 +842,10 @@ one_shot = true
 
 [node name="Detector" type="Area2D" parent="."]
 editor/display_folded = true
-script = SubResource( 44 )
+script = SubResource( 43 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
-shape = SubResource( 43 )
+shape = SubResource( 44 )
 
 [connection signal="timeout" from="ShootTime" to="." method="_on_ShootTime_timeout"]
 [connection signal="timeout" from="DoubleDamageTimer" to="." method="_on_DoubleDamageTimer_timeout"]
