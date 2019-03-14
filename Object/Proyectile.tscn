@@ -6,16 +6,11 @@
 [ext_resource path="res://Sprites/Particle.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
 extents = Vector2( 10, 3.88292 )
 
 [sub_resource type="Animation" id=2]
-
 resource_name = "Explosion"
 length = 0.6
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
@@ -78,10 +73,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-
 length = 0.6
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -132,89 +124,38 @@ tracks/3/keys = {
 }
 
 [sub_resource type="Gradient" id=4]
-
-offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 0.890625, 0, 1, 1, 0, 0, 0 )
 
 [sub_resource type="GradientTexture" id=5]
-
-flags = 4
 gradient = SubResource( 4 )
-width = 2048
 
 [sub_resource type="ParticlesMaterial" id=6]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
 flag_disable_z = true
 spread = 30.0
-flatness = 0.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 2.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
 scale = 3.0
-scale_random = 0.0
 color_ramp = SubResource( 5 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Hue Variation", "Initial Velocity", "Spread" ]
 
 [sub_resource type="Gradient" id=7]
-
 offsets = PoolRealArray( 0, 0.343195, 0.686391, 1 )
 colors = PoolColorArray( 0.988281, 0.988281, 0.988281, 1, 1, 0.821014, 0.00390625, 0.9014, 1, 0, 0, 0.425412, 0, 0, 0, 0 )
 
 [sub_resource type="GradientTexture" id=8]
-
-flags = 4
 gradient = SubResource( 7 )
-width = 2048
 
 [sub_resource type="Curve" id=9]
-
-min_value = 0.0
 max_value = 20.0
-bake_resolution = 100
 _data = [ Vector2( 0, 7.0344 ), 0.0, 0.0, 0, 0, Vector2( 0.89298, 13.242 ), 24.6804, 24.6804, 0, 0, Vector2( 1, 20 ), 59.8658, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=10]
-
-flags = 4
-width = 2048
 curve = SubResource( 9 )
 
 [sub_resource type="ParticlesMaterial" id=11]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
 flag_disable_z = true
 spread = 180.0
-flatness = 0.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 50.0
 initial_velocity_random = 0.7
@@ -222,257 +163,119 @@ angular_velocity = 360.0
 angular_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
 damping = 40.0
 damping_random = 0.2
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
 scale_random = 0.5
 scale_curve = SubResource( 10 )
 color_ramp = SubResource( 8 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Gradient" id=21]
-
-offsets = PoolRealArray( 0, 1 )
+[sub_resource type="Gradient" id=12]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=22]
+[sub_resource type="GradientTexture" id=13]
+gradient = SubResource( 12 )
 
-flags = 4
-gradient = SubResource( 21 )
-width = 2048
-
-[sub_resource type="Curve" id=19]
-
+[sub_resource type="Curve" id=14]
 min_value = -2.0
 max_value = 2.0
-bake_resolution = 100
 _data = [ Vector2( 0, -1.71875 ), 0.0, 13.3317, 0, 0, Vector2( 0.496355, 0.601563 ), 0.0, 0.0, 0, 0, Vector2( 1, -2 ), -14.9296, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=20]
+[sub_resource type="CurveTexture" id=15]
+curve = SubResource( 14 )
 
-flags = 4
-width = 2048
-curve = SubResource( 19 )
-
-[sub_resource type="Curve" id=23]
-
+[sub_resource type="Curve" id=16]
 min_value = -20.0
 max_value = 20.0
-bake_resolution = 100
 _data = [ Vector2( 0, 20 ), 0.0, 0.0, 0, 0, Vector2( 1, -20 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=24]
+[sub_resource type="CurveTexture" id=17]
+curve = SubResource( 16 )
 
-flags = 4
-width = 2048
-curve = SubResource( 23 )
-
-[sub_resource type="Gradient" id=17]
-
+[sub_resource type="Gradient" id=18]
 offsets = PoolRealArray( 0, 0.443787, 1 )
 colors = PoolColorArray( 1, 0.164063, 0, 0.425412, 1, 0.398438, 0, 0.889529, 1, 0.9375, 0, 1 )
 
-[sub_resource type="GradientTexture" id=18]
+[sub_resource type="GradientTexture" id=19]
+gradient = SubResource( 18 )
 
-flags = 4
-gradient = SubResource( 17 )
-width = 2048
-
-[sub_resource type="Curve" id=14]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
+[sub_resource type="Curve" id=20]
 _data = [ Vector2( 0, 1 ), 0.0, 0.156523, 0, 0, Vector2( 0.598427, 0.220703 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -0.549597, 0.0, 1, 0 ]
 
-[sub_resource type="CurveTexture" id=15]
+[sub_resource type="CurveTexture" id=21]
+curve = SubResource( 20 )
 
-flags = 4
-width = 2048
-curve = SubResource( 14 )
-
-[sub_resource type="ParticlesMaterial" id=16]
-
-render_priority = 0
+[sub_resource type="ParticlesMaterial" id=22]
 trail_divisor = 120
-trail_size_modifier = SubResource( 15 )
-trail_color_modifier = SubResource( 18 )
+trail_size_modifier = SubResource( 21 )
+trail_color_modifier = SubResource( 19 )
 emission_shape = 1
 emission_sphere_radius = 2.0
-flag_align_y = false
-flag_rotate_y = false
 flag_disable_z = true
 spread = 0.0
 flatness = 1.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
 initial_velocity_random = 0.2
-angular_velocity = 0.0
-angular_velocity_random = 0.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
 tangential_accel_random = 0.5
-tangential_accel_curve = SubResource( 24 )
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
+tangential_accel_curve = SubResource( 17 )
 scale = 0.45
 scale_random = 0.2
-scale_curve = SubResource( 20 )
-color_ramp = SubResource( 22 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Initial Velocity", "Scale", "Spread" ]
+scale_curve = SubResource( 15 )
+color_ramp = SubResource( 13 )
 
 [node name="Proyectile" type="Area2D"]
-
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
 script = ExtResource( 1 )
-speed = 400.0
-time_to_destroy = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="." index="1"]
-
+[node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 vframes = 4
-_sections_unfolded = [ "Animation", "Visibility" ]
 
-[node name="Anim" type="AnimationPlayer" parent="." index="2"]
-
-root_node = NodePath("..")
+[node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
 anims/Explosion = SubResource( 2 )
 anims/Start = SubResource( 3 )
-blend_times = [  ]
 
-[node name="DistanceTimer" type="Timer" parent="." index="3"]
-
-process_mode = 1
-wait_time = 1.0
+[node name="DistanceTimer" type="Timer" parent="."]
 one_shot = true
-autostart = false
 
-[node name="Trail" type="Particles2D" parent="." index="4"]
-
+[node name="Trail" type="Particles2D" parent="."]
 show_behind_parent = true
 position = Vector2( -2.25414, 0.314024 )
 rotation = 3.14159
-emitting = true
 amount = 3
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
 speed_scale = 5.0
-explosiveness = 0.0
 randomness = 0.5
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
-draw_order = 0
 process_material = SubResource( 6 )
-texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Drawing", "Process Material", "Time", "Transform", "Visibility" ]
 
-[node name="Explosion" type="Particles2D" parent="." index="5"]
-
+[node name="Explosion" type="Particles2D" parent="."]
 emitting = false
 amount = 40
 lifetime = 3.0
 one_shot = true
-preprocess = 0.0
 speed_scale = 3.0
 explosiveness = 0.9
 randomness = 0.1
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
 process_material = SubResource( 11 )
-texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time" ]
 
-[node name="LifetimeTimer" type="Timer" parent="." index="6"]
-
-process_mode = 1
+[node name="LifetimeTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
-autostart = false
 
-[node name="DoubleDamage" type="Particles2D" parent="." index="7"]
-
+[node name="DoubleDamage" type="Particles2D" parent="."]
 position = Vector2( 6.00504, 0.387436 )
 rotation = 3.14159
-emitting = true
 amount = 250
-lifetime = 1.0
-one_shot = false
 preprocess = 0.5
 speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
-draw_order = 0
-process_material = SubResource( 16 )
+process_material = SubResource( 22 )
 texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time", "Transform" ]
 
 [connection signal="body_entered" from="." to="." method="_on_Proyectile_body_entered"]
-
 [connection signal="timeout" from="DistanceTimer" to="." method="_on_DistanceTimer_timeout"]
-
 [connection signal="timeout" from="LifetimeTimer" to="." method="_on_LifetimeTimer_timeout"]
-
-

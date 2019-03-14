@@ -10,7 +10,6 @@
 [ext_resource path="res://Sprites/DamageIndicator.png" type="Texture" id=8]
 
 [sub_resource type="GDScript" id=1]
-
 resource_name = "Display.gd"
 script/source = "extends Node2D
 
@@ -80,14 +79,10 @@ func _on_Timer_timeout():
 func set_attacked(val):
 	attacked_by = val
 	pass"
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="Animation" id=2]
-
 resource_name = "DamageIndicator"
 length = 2.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("DamageIndicator:visible")
 tracks/0/interp = 1
@@ -128,223 +123,87 @@ tracks/2/keys = {
 }
 
 [node name="Display" type="Node2D"]
-
 script = SubResource( 1 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="HealthBarTween" type="TextureProgress" parent="." index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HealthBarTween" type="TextureProgress" parent="."]
 margin_left = -22.0
 margin_top = -34.0
 margin_right = 23.0
 margin_bottom = -28.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
 max_value = 5.0
-step = 1.0
-page = 0.0
+step = 0.0
 value = 5.0
-exp_edit = true
-rounded = false
 texture_under = ExtResource( 1 )
-texture_over = null
 texture_progress = ExtResource( 2 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = true
-_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="HealthBar" type="TextureProgress" parent="." index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HealthBar" type="TextureProgress" parent="."]
 margin_left = -22.0
 margin_top = -34.0
 margin_right = 23.0
 margin_bottom = -28.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
 max_value = 5.0
-step = 1.0
-page = 0.0
 value = 4.0
-exp_edit = true
-rounded = false
-texture_under = null
-texture_over = null
 texture_progress = ExtResource( 3 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = true
-_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="ShieldBarTween" type="TextureProgress" parent="." index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ShieldBarTween" type="TextureProgress" parent="."]
 margin_left = -22.0
 margin_top = -27.0
 margin_right = 23.0
 margin_bottom = -21.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
 max_value = 5.0
-step = 1.0
-page = 0.0
+step = 0.0
 value = 5.0
-exp_edit = false
-rounded = false
 texture_under = ExtResource( 1 )
-texture_over = null
 texture_progress = ExtResource( 4 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = true
-_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="ShieldBar" type="TextureProgress" parent="." index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ShieldBar" type="TextureProgress" parent="."]
 margin_left = -22.0
 margin_top = -27.0
 margin_right = 23.0
 margin_bottom = -21.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
 max_value = 5.0
-step = 1.0
-page = 0.0
 value = 3.0
-exp_edit = false
-rounded = false
-texture_under = null
-texture_over = null
 texture_progress = ExtResource( 5 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = true
-_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="PlayerName" type="Label" parent="." index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="PlayerName" type="Label" parent="."]
 margin_left = -66.0
 margin_top = -48.0
 margin_right = 66.0
 margin_bottom = -34.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
 text = "Ricardo"
 align = 1
 valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "custom_colors" ]
 
-[node name="Tween" type="Tween" parent="." index="5"]
+[node name="Tween" type="Tween" parent="."]
 
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
-
-[node name="Cooldown" type="TextureProgress" parent="." index="6"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -22.0
-margin_top = 21.0
-margin_right = 22.0
-margin_bottom = 34.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
+[node name="Cooldown" type="TextureProgress" parent="."]
+margin_left = -21.6022
+margin_top = 16.7241
+margin_right = 22.3978
+margin_bottom = 29.7241
 max_value = 5.0
-step = 1.0
-page = 0.0
-value = 5.0
-exp_edit = false
-rounded = false
+step = 0.0
+value = 2.5
+allow_lesser = true
 texture_under = ExtResource( 6 )
-texture_over = null
 texture_progress = ExtResource( 7 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = true
-_sections_unfolded = [ "Textures" ]
 
-[node name="Timer" type="Timer" parent="." index="7"]
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
 
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
-
-[node name="DamageIndicator" type="Sprite" parent="." index="8"]
-
+[node name="DamageIndicator" type="Sprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 8 )
 offset = Vector2( 113.558, -0.0267337 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Anim" type="AnimationPlayer" parent="." index="9"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
+[node name="Anim" type="AnimationPlayer" parent="."]
 anims/DamageIndicator = SubResource( 2 )
-blend_times = [  ]
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-
-

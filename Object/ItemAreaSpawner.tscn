@@ -4,7 +4,6 @@
 [ext_resource path="res://Object/DoubleDamage.tscn" type="PackedScene" id=2]
 
 [sub_resource type="GDScript" id=1]
-
 resource_name = "ItemAreaSpawner"
 script/source = "extends Area2D
 
@@ -42,40 +41,22 @@ sync func spawn_item(item,pos):
 	var i = item.instance()
 	i.final_position = pos
 	i.global_position = pos + Vector2(0,-get_viewport_rect().size.y)
-	get_tree().root.get_node('TestScene/Items').add_child(i)
+	get_tree().root.get_node('GameScene/Items').add_child(i)
 	pass"
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="RectangleShape2D" id=2]
-
-custom_solver_bias = 0.0
 extents = Vector2( 128, 128 )
 
-[node name="ItemAreaSpawner" type="Area2D" index="0"]
-
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
+[node name="ItemAreaSpawner" type="Area2D"]
 script = SubResource( 1 )
 items = [ ExtResource( 1 ), ExtResource( 2 ) ]
-min_time = 1
-max_time = 2
+min_time = 10
+max_time = 20
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
 
-[node name="SpawnTimer" type="Timer" parent="." index="1"]
-
-process_mode = 1
-wait_time = 1.0
+[node name="SpawnTimer" type="Timer" parent="."]
 one_shot = true
-autostart = false
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
-
-
