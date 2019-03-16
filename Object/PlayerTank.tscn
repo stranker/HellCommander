@@ -1,13 +1,14 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://Object/Proyectile.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Heal.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Particle.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/PlayerTank.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/TankTurret.png" type="Texture" id=5]
-[ext_resource path="res://UI/Display.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Object/CameraShake.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Sprites/Explosion.png" type="Texture" id=8]
+[ext_resource path="res://Object/Effect/PopUpDamage.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Sprites/Heal.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Particle.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/PlayerTank.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/TankTurret.png" type="Texture" id=6]
+[ext_resource path="res://UI/Display.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Object/CameraShake.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Sprites/Explosion.png" type="Texture" id=9]
 
 [sub_resource type="GDScript" id=1]
 resource_name = "PlayerTank.gd"
@@ -21,6 +22,7 @@ var health = maxHealth
 export var tankDamage = 1
 export var rotationSpeed = 1.5
 export (PackedScene) var proyectile
+export (PackedScene) var popup_damage
 var velocity = Vector2()
 puppet var slave_position = Vector2()
 puppet var slave_rotation = 0
@@ -118,6 +120,7 @@ sync func take_tank_damage(val,enemy):
 	else:
 		health -= val
 		$Anim.play(\"ReceiveDamage\")
+	create_pop_damage(val)
 	$Camera.shake(0.5,0.5)
 	update_display()
 	$Display.enable_damage_indicator(enemy)
@@ -229,7 +232,14 @@ func _on_DoubleDamageTimer_timeout():
 	tankDamage /= 2
 	$DoubleDamageTimer.stop()
 	$Effects/DoubleDamage.emitting = false
-	pass # replace with function body"
+	pass # replace with function body
+
+func create_pop_damage(enemy_damage):
+	var p = popup_damage.instance()
+	get_tree().root.call_deferred('add_child',p)
+	p.position = position
+	p.set_damage(enemy_damage)
+	pass"
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.604651, 1 )
@@ -691,6 +701,7 @@ radius = 9.50404
 ]]
 script = SubResource( 1 )
 proyectile = ExtResource( 1 )
+popup_damage = ExtResource( 2 )
 
 [node name="Effects" type="Node2D" parent="."]
 editor/display_folded = true
@@ -705,7 +716,7 @@ speed_scale = 4.0
 explosiveness = 0.9
 randomness = 0.5
 process_material = SubResource( 6 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="ExpParticles" type="Particles2D" parent="Effects"]
 position = Vector2( 0, -0.0694427 )
@@ -724,7 +735,7 @@ amount = 200
 speed_scale = 0.7
 randomness = 0.5
 process_material = SubResource( 18 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="Particles" type="Node2D" parent="."]
 editor/display_folded = true
@@ -776,14 +787,14 @@ local_coords = false
 process_material = SubResource( 31 )
 
 [node name="Body" type="Sprite" parent="."]
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 hframes = 3
 frame = 1
 
 [node name="Turret" type="Sprite" parent="."]
 editor/display_folded = true
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 
 [node name="ShootPos" type="Position2D" parent="Turret"]
 editor/display_folded = true
@@ -810,9 +821,9 @@ shape = SubResource( 37 )
 [node name="ShootTime" type="Timer" parent="."]
 one_shot = true
 
-[node name="Display" parent="." instance=ExtResource( 6 )]
+[node name="Display" parent="." instance=ExtResource( 7 )]
 
-[node name="Camera" parent="." instance=ExtResource( 7 )]
+[node name="Camera" parent="." instance=ExtResource( 8 )]
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Appear"
@@ -824,11 +835,10 @@ anims/ReceiveDamage = SubResource( 42 )
 
 [node name="Explosion" type="Sprite" parent="."]
 visible = false
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 hframes = 7
 
 [node name="PlayerUI" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="Spectator" type="Label" parent="PlayerUI"]
 anchor_left = 0.5
@@ -846,6 +856,7 @@ wait_time = 7.0
 one_shot = true
 
 [node name="Detector" type="Area2D" parent="."]
+editor/display_folded = true
 position = Vector2( -0.0897446, 0.0897484 )
 script = SubResource( 43 )
 

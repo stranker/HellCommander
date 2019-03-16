@@ -76,14 +76,15 @@ shader_param/OCTAVES = 6
 shader_param/mask_texture = ExtResource( 2 )
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 500.0
+radius = 1000.0
 
 [node name="AreaCircle" type="Area2D"]
 script = SubResource( 1 )
+circle_radius = 1000.0
 
 [node name="OuterCircle" type="Sprite" parent="."]
 material = SubResource( 3 )
-scale = Vector2( 2, 2 )
+scale = Vector2( 4, 4 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
