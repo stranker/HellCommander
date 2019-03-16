@@ -4,7 +4,7 @@
 [ext_resource path="res://Sprites/Heal.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Particle.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/PlayerTank.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/PlayerTurret.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/TankTurret.png" type="Texture" id=5]
 [ext_resource path="res://UI/Display.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Object/CameraShake.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Sprites/Explosion.png" type="Texture" id=8]
@@ -438,7 +438,7 @@ scale_curve = SubResource( 35 )
 color_ramp = SubResource( 33 )
 
 [sub_resource type="RectangleShape2D" id=37]
-extents = Vector2( 15.7986, 14.9761 )
+extents = Vector2( 13.0159, 12.1292 )
 
 [sub_resource type="Animation" id=38]
 tracks/0/type = "value"
@@ -685,7 +685,7 @@ func _on_Detector_tree_entered():
 "
 
 [sub_resource type="CircleShape2D" id=44]
-radius = 21.905
+radius = 9.50404
 
 [node name="PlayerTank" type="KinematicBody2D" groups=[
 "Tank",
@@ -697,6 +697,7 @@ proyectile = ExtResource( 1 )
 editor/display_folded = true
 
 [node name="HealParticles" type="Particles2D" parent="Effects"]
+position = Vector2( -0.208328, 0 )
 emitting = false
 amount = 12
 lifetime = 3.0
@@ -708,6 +709,7 @@ process_material = SubResource( 6 )
 texture = ExtResource( 2 )
 
 [node name="ExpParticles" type="Particles2D" parent="Effects"]
+position = Vector2( 0, -0.0694427 )
 emitting = false
 amount = 30
 lifetime = 2.0
@@ -717,6 +719,7 @@ explosiveness = 0.8
 process_material = SubResource( 11 )
 
 [node name="DoubleDamage" type="Particles2D" parent="Effects"]
+position = Vector2( -0.0694427, 0 )
 emitting = false
 amount = 200
 speed_scale = 0.7
@@ -729,7 +732,7 @@ editor/display_folded = true
 
 [node name="Exhaust" type="Particles2D" parent="Particles"]
 show_behind_parent = true
-position = Vector2( -14.3591, -9.3946e-008 )
+position = Vector2( -15.2087, -0.0694427 )
 rotation = 3.14159
 amount = 20
 lifetime = 0.5
@@ -739,7 +742,7 @@ process_material = SubResource( 23 )
 
 [node name="Dust" type="Particles2D" parent="Particles"]
 show_behind_parent = true
-position = Vector2( -15.9929, 13.1545 )
+position = Vector2( -17.2226, 10.3058 )
 rotation = 3.14159
 amount = 30
 speed_scale = 2.0
@@ -748,7 +751,7 @@ process_material = SubResource( 28 )
 
 [node name="Dust2" type="Particles2D" parent="Particles"]
 show_behind_parent = true
-position = Vector2( -15.3316, -12.8242 )
+position = Vector2( -17.5699, -10.7919 )
 rotation = 3.14159
 amount = 30
 speed_scale = 2.0
@@ -757,7 +760,7 @@ process_material = SubResource( 28 )
 
 [node name="Trail" type="Particles2D" parent="Particles"]
 show_behind_parent = true
-position = Vector2( -12, 13 )
+position = Vector2( -13.9726, 10.3058 )
 rotation = 3.14159
 amount = 100
 lifetime = 5.0
@@ -766,7 +769,7 @@ process_material = SubResource( 31 )
 
 [node name="Trail2" type="Particles2D" parent="Particles"]
 show_behind_parent = true
-position = Vector2( -12, -13 )
+position = Vector2( -14.042, -10.5141 )
 rotation = 3.14159
 amount = 100
 lifetime = 5.0
@@ -775,15 +778,16 @@ process_material = SubResource( 31 )
 
 [node name="Body" type="Sprite" parent="."]
 texture = ExtResource( 4 )
-hframes = 4
+hframes = 3
 
 [node name="Turret" type="Sprite" parent="."]
 editor/display_folded = true
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 5 )
 
 [node name="ShootPos" type="Position2D" parent="Turret"]
 editor/display_folded = true
-position = Vector2( 16.0979, -0.452896 )
+position = Vector2( 37.6366, -0.00416934 )
 
 [node name="Particles" type="Particles2D" parent="Turret/ShootPos"]
 show_behind_parent = true
@@ -800,6 +804,7 @@ process_material = SubResource( 36 )
 [node name="Tween" type="Tween" parent="Turret"]
 
 [node name="Colision" type="CollisionShape2D" parent="."]
+position = Vector2( -2.28358, 0.159054 )
 shape = SubResource( 37 )
 
 [node name="ShootTime" type="Timer" parent="."]
@@ -841,10 +846,11 @@ wait_time = 7.0
 one_shot = true
 
 [node name="Detector" type="Area2D" parent="."]
-editor/display_folded = true
+position = Vector2( -0.0897446, 0.0897484 )
 script = SubResource( 43 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+position = Vector2( -1.10183, -0.110184 )
 shape = SubResource( 44 )
 
 [connection signal="timeout" from="ShootTime" to="." method="_on_ShootTime_timeout"]

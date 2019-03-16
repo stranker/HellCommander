@@ -123,13 +123,14 @@ tracks/2/keys = {
 }
 
 [node name="Display" type="Node2D"]
+editor/display_folded = true
 script = SubResource( 1 )
 
 [node name="HealthBarTween" type="TextureProgress" parent="."]
-margin_left = -22.0
-margin_top = -34.0
-margin_right = 23.0
-margin_bottom = -28.0
+margin_left = -21.7002
+margin_top = -31.9015
+margin_right = 23.2998
+margin_bottom = -25.9015
 max_value = 5.0
 step = 0.0
 value = 5.0
@@ -138,20 +139,20 @@ texture_progress = ExtResource( 2 )
 nine_patch_stretch = true
 
 [node name="HealthBar" type="TextureProgress" parent="."]
-margin_left = -22.0
-margin_top = -34.0
-margin_right = 23.0
-margin_bottom = -28.0
+margin_left = -21.7002
+margin_top = -31.9015
+margin_right = 23.2998
+margin_bottom = -25.9015
 max_value = 5.0
 value = 4.0
 texture_progress = ExtResource( 3 )
 nine_patch_stretch = true
 
 [node name="ShieldBarTween" type="TextureProgress" parent="."]
-margin_left = -22.0
-margin_top = -27.0
-margin_right = 23.0
-margin_bottom = -21.0
+margin_left = -21.7002
+margin_top = -24.9015
+margin_right = 23.2998
+margin_bottom = -18.9015
 max_value = 5.0
 step = 0.0
 value = 5.0
@@ -160,20 +161,20 @@ texture_progress = ExtResource( 4 )
 nine_patch_stretch = true
 
 [node name="ShieldBar" type="TextureProgress" parent="."]
-margin_left = -22.0
-margin_top = -27.0
-margin_right = 23.0
-margin_bottom = -21.0
+margin_left = -21.7002
+margin_top = -24.9015
+margin_right = 23.2998
+margin_bottom = -18.9015
 max_value = 5.0
 value = 3.0
 texture_progress = ExtResource( 5 )
 nine_patch_stretch = true
 
 [node name="PlayerName" type="Label" parent="."]
-margin_left = -66.0
-margin_top = -48.0
-margin_right = 66.0
-margin_bottom = -34.0
+margin_left = -65.7002
+margin_top = -45.9015
+margin_right = 66.2998
+margin_bottom = -31.9015
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_as_outline = 1
 text = "Ricardo"
