@@ -18,7 +18,6 @@ func _ready():
 		$ReduceTimer.start()
 	$DamageTimer.start()
 	circle.radius = circle_radius
-	$OuterCircle.scale = circle_radius * $OuterCircle.scale / 500
 	pass
 
 func _on_Timer_timeout():
@@ -69,13 +68,13 @@ sync func unregister_player(player):
 func is_player_outside(p):
 	return p.global_position.distance_to(global_position) > circle_radius"
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/color = Vector3( 1, 0.45, 0.1 )
 shader_param/OCTAVES = 6
 shader_param/mask_texture = ExtResource( 2 )
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=3]
 radius = 1000.0
 
 [node name="AreaCircle" type="Area2D"]
@@ -83,12 +82,12 @@ script = SubResource( 1 )
 circle_radius = 1000.0
 
 [node name="OuterCircle" type="Sprite" parent="."]
-material = SubResource( 3 )
+material = SubResource( 2 )
 scale = Vector2( 4, 4 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 
 [node name="ReduceTimer" type="Timer" parent="."]
 wait_time = 5.0
