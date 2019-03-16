@@ -126,10 +126,9 @@ sync func take_tank_damage(val,enemy):
 	pass
 
 sync func take_circle_damage(val):
-	if is_alive():
-		health -= val
-		update_display()
-	else:
+	health -= val
+	update_display()
+	if !is_alive():
 		rpc('destroy_tank')
 	pass
 
@@ -512,10 +511,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3 ]
+"values": [ 0, 1, 2 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Body:self_modulate")
@@ -779,6 +778,7 @@ process_material = SubResource( 31 )
 [node name="Body" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 hframes = 3
+frame = 1
 
 [node name="Turret" type="Sprite" parent="."]
 editor/display_folded = true
